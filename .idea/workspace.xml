@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="222373bb-8916-47ad-8343-12ae760ec1fd" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/disccusion_post_comments.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/discussion_post.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/feature_post.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/sign_up.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/discussion_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/discussion_post.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1659412528214</updated>
-      <workItem from="1659412531084" duration="1792000" />
+      <workItem from="1659412531084" duration="2459000" />
     </task>
     <servers />
   </component>
