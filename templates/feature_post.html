@@ -13,6 +13,9 @@
             crossorigin="anonymous"></script>
 
     <title>너의 MBTI는?</title>
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
@@ -30,67 +33,70 @@
             color: black;
 
             display: flex;
-<<<<<<< Updated upstream
             flex-direction: row;
             align-items: center;
             justify-content: space-around;
         }
-        .head_contents{
+
+        .head_contents {
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: space-around;
         }
-        .head_item:nth-child(1){
+
+        .head_item:nth-child(1) {
             margin-right: 10px;
             flex-shrink: 0;
         }
 
-=======
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
->>>>>>> Stashed changes
-        .main_contents{
+        .main_contents {
             width: 90%;
             max-width: 1500px;
             height: 800px;
 
-            margin : 0 auto 0 auto;
+            margin: 0 auto 0 auto;
             /*background-color: aqua;*/
 
-            display : flex;
+            display: flex;
             flex-direction: row;
             align-items: stretch;
             justify-content: space-between;
         }
-        .item:nth-child(1){
+
+        .item:nth-child(1) {
             /*background-color: red;*/
             flex-shrink: 0;
             width: 200px;
         }
 
-        .item:nth-child(2){
+        .item:nth-child(2) {
             /*background-color: gray;*/
             flex-grow: 1;
         }
-<<<<<<< Updated upstream
-        ul{
-=======
 
         ul {
->>>>>>> Stashed changes
             list-style: none;
         }
 
-        .list_name{
-            margin-top :20px;
+        .list_name {
+            margin-top: 20px;
             font-size: 20px;
         }
-        .content{
-            margin : 20px 0 0 40px;
+
+        .content {
+            margin: 20px 0 0 40px;
         }
+
+        .card {
+            margin: 0 0 0 10px;
+        }
+
+        .content-img {
+            max-width: 100%;
+        }
+
+
     </style>
     <script>
 
@@ -98,87 +104,77 @@
 </head>
 
 <body>
-<<<<<<< Updated upstream
 <div>
-<!-- header == div -->
-<header class="mytitle">
-    <h1> </h1>
-    <h1>너의 MBTI는?</h1>
-    <div class="head_contents">
-        <h5 class = "head_item" >홍길동님</h5>
-        <button type="button" class="btn btn-outline-dark">Dark</button>
-    </div>
-</header>
-
-<!-- main == div -->
-<div class = "main_contents">
-    <div class="item">
-        <div class = "list_name">MBTI 특징
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                <option selected>전체</option>
-                <option value="1">ISTJ</option>
-                <option value="2">ISTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTJ</option>
-                <option value="3">E</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-            </select>
+    <!-- header == div -->
+    <header class="mytitle">
+        <div></div>
+        <h1 class = "title">너의 MBTI는?</h1>
+        <div class="head_contents">
+            <div class="head_item">홍길동님</div>
+            <button type="button" class="btn btn-outline-dark">로그인 / 로그아웃</button>
         </div>
-        <div class = "list_name" >게시판</div>
+    </header>
 
-=======
-<!-- header == div -->
-<header class="mytitle">
-    <h1>너의 MBTI는?</h1>
-    <button type="button" class="btn btn-outline-dark">Dark</button>
-</header>
-<!-- main == div -->
-<div class = "main_contents">
-    <div class="item">
-        <div class = "list_name">MBTI 특징
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                <option selected>전체</option>
-                <option value="1">ISTJ</option>
-                <option value="2">ISTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTJ</option>
-                <option value="3">E</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-                <option value="3">ESTP</option>
-            </select>
+    <!-- main == div -->
+    <main class="main_contents">
+        <div class="item">
+            <div class="list_name">MBTI 특징
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <option value="ISTJ">ISTJ</option>
+                    <option value="ISFJ">ISFJ</option>
+                    <option value="INFJ">INFJ</option>
+                    <option value="INTJ">INTJ</option>
+                    <option value="ISTP">ISTP</option>
+                    <option value="ISFP">ISFP</option>
+                    <option value="INFP">INFP</option>
+                    <option value="INTP">INTP</option>
+                    <option value="ESTP">ESTP</option>
+                    <option value="ESFP">ESFP</option>
+                    <option value="ENFP">ENFP</option>
+                    <option value="ENTP">ENTP</option>
+                    <option value="ESTJ">ESTJ</option>
+                    <option value="ESFJ">ESFJ</option>
+                    <option value="ENFJ">ENFJ</option>
+                    <option value="ENTJ">ENTJ</option>
+                </select>
+            </div>
+            <div class="list_name">게시판</div>
+
         </div>
-        <div class = "list_name" >게시판</div>
-
->>>>>>> Stashed changes
-    </div>
-    <div class = "item">
-        <div class = "content">
-            사진들어올 곳
+        <div class="item">
+            <div class="content">
+                <img src="https://blog.kakaocdn.net/dn/duiuP8/btqEQXQTkeu/lqFPGyqg3dWbi02fru5DF0/img.png"
+                     class="content-img">
+            </div>
+            <div class="row row-cols-3 row-cols-md-2 g-4">
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">content1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">content2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">content3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 </div>
-
-
-</div>
-
-</div>
-<<<<<<< Updated upstream
-</div>
-=======
->>>>>>> Stashed changes
 </body>
+
+</script>
+
 
 </html>
