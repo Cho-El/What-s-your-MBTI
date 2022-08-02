@@ -84,14 +84,30 @@
             margin-top: 5px;
         }
 
+        .discussion_zone{
+            position: relative;
+        }
+
         .content-light{
             font-weight: lighter;
             margin-top: 7px;
             color: dimgray;
         }
 
+        .btn-outline-secondary{
+            width: 110px;
+            margin-top: 20px;
+            margin-bottom: -30px;
+            font-size: smaller;
+
+
+            position: absolute;
+            right: 0;
+        }
+
         .card{
             margin-top: 50px;
+            margin-left: 10px;
         }
 
     </style>
@@ -113,6 +129,8 @@
 
         <!-- main == div -->
         <div class = "main_contents">
+
+            <!-- main 1 : side_bar -->
             <div class="item">
                 <div class = "list_name">MBTI별 특징
                     <select class="form-select form-select-sm" aria-label=".form-select-sm example">
@@ -138,12 +156,15 @@
                 <div class = "list_name" >MBTI 토론 게시판</div>
             </div>
 
+            <!-- main 2 : discussion posts -->
             <div class = "item">
                 <div class = "discussion_zone">
                     <div class = "content">
                         📢 MBTI 토론 게시판
                     </div>
                     <h5 class = "content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
+                    <button type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
+                        <br>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="card">
