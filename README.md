@@ -1,1 +1,1 @@
-# What-s-your-MBTI-
+# What-is-your-MBTI
