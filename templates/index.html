@@ -3,19 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>너의 MBTI는?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
+    <style>
+        *{font-family: 'Noto Sans KR', sans-serif;}
+   .mytitle{
+       width: 300px;
+       height: 200px;
+
+       text-align: center;
+
+       background-size: cover;
+       background-position: center;
+
+       border-radius: 10px;
+
+       padding-top: 40px;
+
+       margin: auto;
+   }
+   .warp{
+       width: 300px;
+       margin: auto;
+   }
+
+    </style>
 </head>
 <body>
-<div>
+<div class="mytitle">
     <h1>너의 MBTI는?</h1>
+</div>
+<div class="warp">
     <div>
-        <h5>Log in</h5>
+        <h3>Log in</h3>
+    </div>
+    <div>
+        <p>ID: <input type="text"/></p>
+        <p>PW: <input type="text"/><button> Go</button></p>
+
     </div>
 </div>
 
 
-        <p>ID: <input type="text"/></p>
-        <p>PW: <input type="text"/></p>
-        <button> 로그인하기</button>
+
 
 </body>
 </html>
