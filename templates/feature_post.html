@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- bootstrap CSS 링크 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,8 +17,10 @@
     <!-- Bulma CSS 링크 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -96,6 +99,9 @@
             max-width: 100%;
         }
 
+        /*.is-sparta {
+            color: #e8344e !important;
+        }*/
 
     </style>
     <script>
@@ -108,7 +114,7 @@
     <!-- header == div -->
     <header class="mytitle">
         <div></div>
-        <h1 class = "title">너의 MBTI는?</h1>
+        <h1 class="title">너의 MBTI는?</h1>
         <div class="head_contents">
             <div class="head_item">홍길동님</div>
             <button type="button" class="btn btn-outline-dark">로그인 / 로그아웃</button>
@@ -143,6 +149,7 @@
         </div>
         <div class="item">
             <div class="content">
+                <!--나중에 static폴더에 이미지 받아서 넣기-->
                 <img src="https://blog.kakaocdn.net/dn/duiuP8/btqEQXQTkeu/lqFPGyqg3dWbi02fru5DF0/img.png"
                      class="content-img">
             </div>
@@ -151,6 +158,10 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="card-text">content1</p>
+                            <div class="level-right">
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span class="like-num">&nbsp;2.7k</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,6 +169,10 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="card-text">content2</p>
+                            <div class="level-right">
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span class="like-num">&nbsp;2.7k</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -165,6 +180,10 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="card-text">content3</p>
+                            <div class="level-right">
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span class="like-num">&nbsp;2.7k</span>
+                            </div>
                         </div>
                     </div>
                 </div>
