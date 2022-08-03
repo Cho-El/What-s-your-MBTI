@@ -31,10 +31,6 @@ def feature_page():
 def discussion():
     return render_template('discussion_post.html')
 
-# 테스트용 - 논의게시판 포스트 바로가기
-@app.route('/discussion/post')
-def discussion_page():
-    return render_template('discussion_post_comments.html')
 
 # < 특징 게시판 - 포스팅 가져오기 API>
 @app.route('/api/mbti_features_posts', methods=['GET'])
@@ -65,6 +61,10 @@ def show_comments():
 # 수진님 -----------------------------------------------------
 
 # 수민님 -----------------------------------------------------
+# [논의 게시판 게시글 수정 바로 가기]
+@app.route('/discussion/post/comments')
+def discussion_page():
+    return render_template('discussion_post_add.html')
 
 # [논의 게시판 댓글 쓰기]
 @app.route("/comment", methods=["POST"])
