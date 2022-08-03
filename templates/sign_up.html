@@ -62,43 +62,40 @@
 
         <!-- 로그인 -->
         function log_in() {
-                let username = $("#input-username").val()
-                let password = $("#input-password").val()
+            let username = $("#input-username").val()
+            let password = $("#input-password").val()
 
-                if (username == "") {
-                    $("#help-id-login").text("아이디를 입력해주세요.")
-                    $("#input-username").focus()
-                    return;
-                } else {
-                    $("#help-id-login").text("")
-                }
+            if (username == "") {
+                $("#help-id-login").text("아이디를 입력해주세요.")
+                $("#input-username").focus()
+                return;
+            } else {
+                $("#help-id-login").text("")
+            }
 
-                if (password == "") {
-                    $("#help-password-login").text("비밀번호를 입력해주세요.")
-                    $("#input-password").focus()
-                    return;
-                } else {
-                    $("#help-password-login").text("")
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/api/login",
-                    data: {
-                        username_give: username,
-                        password_give: password
-                    },
-                    success: function (response) {
-                        if (response['result'] == 'success') {
-                            $.cookie('mytoken', response['token'], {path: '/'});
-                            window.location.replace("/")
-                            alert('로그인 완료!')
-                        } else {
-                             // 로그인이 안되면 에러메시지를 띄웁니다.
-                            alert(response['msg'])
-                        }
+            if (password == "") {
+                $("#help-password-login").text("비밀번호를 입력해주세요.")
+                $("#input-password").focus()
+                return;
+            } else {
+                $("#help-password-login").text("")
+            }
+            $.ajax({
+                type: "POST",
+                url: "/api/login",
+                data: {
+                    username_give: username,
+                    password_give: password
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        $.cookie('mytoken', response['token'], {path: '/'});
+                        window.location.replace("/")
+                    } else {
+                        alert(response['msg'])
                     }
-                })
+                }
+            });
         }
 
         <!-- 회원가입 -->
@@ -111,7 +108,7 @@
                 let mbti = $("#inputGroupSelect01").val()
                 console.log(username, password, password2, mbti)
 
-            // {# 중복검사 했는지 안했는지 #}
+                // {# 중복검사 했는지 안했는지 #}
                 if ($("#help-id").hasClass("is-danger")) {
                     alert("아이디를 다시 확인해주세요.")
                     return;
@@ -132,7 +129,7 @@
                     $("#help-mbti").text("MBTI를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
                     $("#input-username").focus()
                     return;
-                }}}
+                }
 
             // {# pw 빈칸인지 확인 #}
                 if (password == "") {

@@ -20,7 +20,7 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        return render_template('index.html')
+        return render_template('feature_post.html')
     except jwt.ExpiredSignatureError:
         return redirect(url_for("start", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -30,10 +30,6 @@ def home():
 def start():
     msg = request.args.get("msg")
     return render_template('sign_up.html', msg=msg)
-
-@app.route('/feature')
-def feature_page():
-    return render_template('feature_post.html')
 
 @app.route('/discussion')
 def discussion():
@@ -90,14 +86,14 @@ def log_in():
     password_receive = request.form['password_give']
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'user_id': username_receive, 'user_pw': pw_hash})
+    result = db.User.find_one({'user_id': username_receive, 'user_pw': pw_hash})
 
     if result is not None:
         payload = {
-            'id': username_receive,
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+         'id': username_receive,
+         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
     else:
@@ -124,7 +120,7 @@ def sign_up():
 @app.route('/api/signup/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
-    exists = bool(db.users.find_one({"username": username_receive}))
+    exists = bool(db.User.find_one({"user_id": username_receive}))
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
 
@@ -139,14 +135,14 @@ def comment_post():
         'comment': comment_receive
     }
 
-    db.comment.insert_one(doc)
+    db.Comment.insert_one(doc)
 
     return jsonify({'msg': '등록 완료!'})
 
 
 @app.route("/comment", methods=["GET"])
 def comment_get():
-    comment_list = list(db.comment.find({}, {'_id': False}))
+    comment_list = list(db.Comment.find({}, {'_id': False}))
     return jsonify({'comments': comment_list})
 
 
