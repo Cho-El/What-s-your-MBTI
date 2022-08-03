@@ -8,9 +8,9 @@ import datetime
 import hashlib
 
 from pymongo import MongoClient
-client = MongoClient('localhost', 27017)
+#client = MongoClient('localhost', 27017)
 # 아래코드는 서버에 배포시
-# client = MongoClient('mongodb://test:test@localhost', 27017) # Connection Setting시 유저 네임과 비밀번호를 입력해줘야되요 ex) MongoClient('mongodb://아이디:비번@localhost',27017)
+client = MongoClient('mongodb://test:test@localhost', 27017) # Connection Setting시 유저 네임과 비밀번호를 입력해줘야되요 ex) MongoClient('mongodb://아이디:비번@localhost',27017)
 db = client.mbti
 
 # 성윤님 -----------------------------------------------------
@@ -39,7 +39,7 @@ def discussion_page():
 
 # < 특징 게시판 - 선택한 MBTI의 특징들 가져오기 API >
 @app.route('/api/mbti_features_posts', methods=['POST'])
-def select_mbti():
+def select_mbti_feature():
     mbti_receive = request.form['mbti_give']
     features = list(db.Feature.find({'feature_mbti': mbti_receive},{'_id':False}).sort('like', -1))
     return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
