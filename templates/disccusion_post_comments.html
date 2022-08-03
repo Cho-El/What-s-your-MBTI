@@ -130,6 +130,11 @@
             margin-right: auto;
             margin-bottom: 0px;
         }
+        .input-group mb-3 {
+
+            margin-top: 30px;
+        }
+
         .delete_or_revise_btn{
             margin-left: auto;
         }
@@ -165,6 +170,18 @@
                 }
             });
         }
+
+        function save_comment() {
+            $.ajax({
+                type: "POST",
+                url: "/comment",
+                data: {comment_give: '데이터전송'},
+                success: function (response) {
+                    alert(response["msg"])
+                }
+            });
+        }
+
     </script>
 </head>
 
@@ -191,14 +208,12 @@
                 나의 애인이 젓가락으로 깻잎 떼주기<br>
                 가능? 불가능?<br>
             </p>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="댓글을 입력하세요"
+                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">작성 완료</button>
+            </div>
 
-            <button type="button" class="btn btn-outline-dark">댓글 작성하기</button>
-
-            <li>
-                <h2>ENTP</h2>
-                <h2>홍길동</h2>
-                <h2>쌉가능!ddddddddddddddddddddddddddddd</h2>
-            </li>
             <div class = "delete_or_revise_btn">
                 <button type="button" class="btn btn-outline-dark">삭제하기</button>
                 <button type="button" class="btn btn-outline-dark">수정하기</button>
