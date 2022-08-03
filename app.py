@@ -65,6 +65,41 @@ def show_comments():
 
 # 수진님 -----------------------------------------------------
 
+
+app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
+
+SECRET_KEY = 'SPARTA'
+
+
+
+@app.route('/login')
+def login():
+    msg = request.args.get("msg")
+    return render_template('login.html', msg=msg)
+
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    # 로그인
+    return jsonify({'result': 'success'})
+
+# 회원가입
+@app.route('/sign_up/save', methods=['POST'])
+def sign_up():
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+    mbti_receive = request.form['mbti_give']
+    password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    doc = {
+        "username": username_receive,                               # 아이디
+        "password": password_hash,                                  # 비밀번호
+        "mbti": mbti_receive                                        # mbti
+    }
+    db.users.insert_one(doc)
+    return jsonify({'result': 'success'})
+
+
 # 수민님 -----------------------------------------------------
 
 # [논의 게시판 댓글 쓰기]
