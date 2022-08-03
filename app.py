@@ -18,6 +18,20 @@ db = client.mbti
 
 # 민진님 -----------------------------------------------------
 
+# HTML 보여주기
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/discussion')
+def discussion_page():
+    return render_template('discussion_post.html')
+
+@app.route('/feature')
+def feature_page():
+    return render_template('feature_post.html')
+
+
 # < 특징 게시판 - 포스팅 가져오기 API>
 @app.route('/api/mbti_features_posts', methods=['GET'])
 def show_features():
@@ -31,8 +45,8 @@ def delete_post():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        Post_id_receive = request.form["post_title_give"]
-        db.Post.delete_one({'user_id': payload['id'], 'Post._id': Post_id_receive})
+        post_id_receive = request.form['post_id_give']
+        db.Post.delete_one({'user_id': payload['id'], 'Post._id': post_id_receive})
         return jsonify({'msg': '삭제 완료!'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))

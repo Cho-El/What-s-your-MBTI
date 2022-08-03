@@ -4,6 +4,10 @@
     <list default="true" id="222373bb-8916-47ad-8343-12ae760ec1fd" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/disccusion_post_comments.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/disccusion_post_comments.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/discussion_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/discussion_post.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/feature_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/feature_post.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/sign_up.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sign_up.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,27 +47,10 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/yoon/Desktop/Yoon_file/스파르타코딩클럽/projects/bucket",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
-  }
-}]]></component>
   <component name="RunManager">
     <configuration name="disccusion_post_comments.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/What-s-your-MBTI/templates/disccusion_post_comments.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JavaScript 디버그.disccusion_post_comments.html" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -94,5 +81,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/What_s_your_MBTI$app.coverage" NAME="app Coverage Results" MODIFIED="1659512205966" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

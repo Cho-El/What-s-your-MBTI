@@ -142,6 +142,17 @@
         }
     </style>
     <script>
+        function save_comment() {
+            $.ajax({
+                type: "POST",
+                url: "/comment",
+                data: {comment_give: '데이터전송'},
+                success: function (response) {
+                    alert(response["msg"])
+                }
+            });
+        }
+
         <!-- 민진 작성 코드 start -->
         $(document).ready(function () {
             show_comments()
@@ -169,7 +180,20 @@
                 }
             })
         }
+
+        function delete_post() {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/free_posts",
+                data: {post_id_give:post_id},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                    }
+                })
+        }
         <!-- 민진 작성 코드 end -->
+
     </script>
 </head>
 
@@ -211,6 +235,28 @@
             </div>
 
             <div class="input-group mb-3" id = "revision">
+
+            <button type="button" class="btn btn-outline-danger" style="margin-bottom: 30px;" onclick="delete_post()">이 토론 삭제하기</button>
+
+            <div class="input-group mb-3 revision">
+                <input type="text" class="form-control" placeholder="댓글을 입력하세요"
+                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" class = "button-addon">작성 완료</button>
+            </div>
+            <div class = "wrap_comments">
+                <li>
+                    <h2>ENTP</h2>
+                    <h2>홍길동</h2>
+                    <h2>쌉가능!ddddddddddddddddddddddddddddd</h2>
+                </li>
+                <div class = "delete_or_revise_btn">
+                    <button type="button" class="btn btn-outline-dark">삭제하기</button>
+                    <button type="button" class="btn btn-outline-dark">수정하기</button>
+                </div>
+            </div>
+<!--            이 밑에 수정란 쓰는 부분은 수정하기 누르는 경우에만 뜨게 설정할 예정-->
+            <div class="input-group mb-3 revision">
+
                 <input type="text" class="form-control" placeholder="수정할 내용을 입력하세요"
                        aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black;" class = "button-addon">취소</button>
