@@ -23,18 +23,18 @@ db = client.mbti
 def home():
     return render_template('index.html')
 
-@app.route('/discussion')
-def discussion():
-    return render_template('discussion_post.html')
-
-@app.route('/discussion/post')
-def discussion_page():
-    return render_template('disccusion_post_comments.html')
-
 @app.route('/feature')
 def feature_page():
     return render_template('feature_post.html')
 
+@app.route('/discussion')
+def discussion():
+    return render_template('discussion_post.html')
+
+# 테스트용 - 논의게시판 포스트 바로가기
+@app.route('/discussion/post')
+def discussion_page():
+    return render_template('discussion_post_comments.html')
 
 # < 특징 게시판 - 포스팅 가져오기 API>
 @app.route('/api/mbti_features_posts', methods=['GET'])
