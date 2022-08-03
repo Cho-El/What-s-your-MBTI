@@ -1,10 +1,295 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>너의 MBTI는?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .mytitle {
+            width: 100%;
+            height: 200px;
+            /*background-color: green;*/
+            color: black;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .head_contents{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .head_item:nth-child(1){
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .main_contents{
+            width: 90%;
+            max-width: 1500px;
+            height: 800px;
+
+            margin : 0 auto 0 auto;
+            /*background-color: aqua;*/
+            display : flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: space-between;
+        }
+        .item:nth-child(1){
+            /*background-color: red;*/
+            flex-shrink: 0;
+            width: 200px;
+        }
+
+        .item:nth-child(2){
+            /*background-color: gray;*/
+            flex-grow: 1;
+        }
+        ul{
+            list-style: none;
+        }
+
+        .list_name{
+            margin-top :20px;
+            font-size: 20px;
+        }
+        .discussion_zone{
+            margin : 20px 0 0 100px;
+        }
+        .content{
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .form-select{
+            margin-top: 5px;
+        }
+
+        .discussion_zone{
+            position: relative;
+        }
+
+        .content-light{
+            font-weight: lighter;
+            margin-top: 7px;
+            color: dimgray;
+        }
+
+        .btn-outline-secondary{
+            width: 110px;
+            margin-top: 20px;
+            margin-bottom: -30px;
+            font-size: smaller;
+
+
+            position: absolute;
+            right: 0;
+        }
+
+        .card{
+            margin-top: 50px;
+            margin-left: 10px;
+        }
+
+    </style>
+    <script>
+    </script>
+</head>
+
+<body>
+    <div>
+        <!-- header == div -->
+        <header class="mytitle">
+            <h1> </h1>
+            <h1>너의 MBTI는?</h1>
+            <div class="head_contents">
+                <h5 class = "head_item" >홍길동님</h5>
+                <button type="button" class="btn btn-outline-dark">로그아웃</button>
+            </div>
+        </header>
+
+        <!-- main == div -->
+        <div class = "main_contents">
+
+            <!-- main 1 : side_bar -->
+            <div class="item">
+                <div class = "list_name">MBTI별 특징
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>-- 선택하기 --</option>
+                        <option value="1">ISTJ</option>
+                        <option value="2">ISFJ</option>
+                        <option value="3">INFJ</option>
+                        <option value="4">INTJ</option>
+                        <option value="5">ISTP</option>
+                        <option value="6">ISFP</option>
+                        <option value="7">INFP</option>
+                        <option value="8">INTP</option>
+                        <option value="9">ESTP</option>
+                        <option value="10">ESFP</option>
+                        <option value="11">ENFP</option>
+                        <option value="12">ENTP</option>
+                        <option value="13">ESTJ</option>
+                        <option value="14">ESFJ</option>
+                        <option value="15">ENFJ</option>
+                        <option value="16">ENTJ</option>
+                    </select>
+                </div>
+                <div class = "list_name" >MBTI 토론 게시판</div>
+            </div>
+
+            <!-- main 2 : discussion posts -->
+            <div class = "item">
+                <div class = "discussion_zone">
+                    <div class = "content">
+                        📢 MBTI 토론 게시판
+                    </div>
+                    <h5 class = "content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
+                    <button type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
+                        <br>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">깻잎논쟁</h4>
+                                    <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">롱패딩 논쟁</h4>
+                                    <!-- <p class="card-text">내 이성친구가 남/여사친의 롱패딩 지퍼를 올려줘도 되는가?</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">'멍때리기'란?</h4>
+                                    <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">"나 교통사고 났어"에 대한 대답은?</h4>
+                                    <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">영희와 철수, 누가 더 나쁜가?</h4>
+                                    <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">시험에 떨어진 친구에게</h4>
+                                    <!-- <p class="card-text">아자차카타파하</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">'사과'하면 떠오르는 것은?</h4>
+                                    <!-- <p class="card-text">아자차카타파하</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">여행 가기 전 준비과정</h4>
+                                    <!-- <p class="card-text">아자차카타파하</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">가끔 어떤 망상해?</h4>
+                                    <!-- <p class="card-text">아자차카타파하</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">가나다라마바사</h4>
+                                    <!-- <p class="card-text">아자차카타파하</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">가나다라마바사</h4>
+                                    <!-- <p class="card-text">아자차카타파하</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">가나다라마바사</h4>
+                                    <!-- <p class="card-text">아자차카타파하</p> -->
+                                    <br><br>
+                                    <a href="#" class="btn btn-light">토론하러 가기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

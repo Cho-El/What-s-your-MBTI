@@ -1,10 +1,80 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <title>회원가입</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .mytitle {
+
+
+
+            width: 100%;
+            height: 150px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wrap {
+
+
+            width: 300px;
+            margin: auto;
+        }
+
+
+    </style>
 </head>
+
 <body>
 
+<div class="mytitle">
+    <h1>너의 MBTI는?</h1>
+</div>
+
+<div class="wrap">
+    <div>
+    <h3>회원 가입</h3>
+    <p>ID: <input type="text"/>
+        <button>중복 확인</button>
+    </p>
+    <p>닉네임: <input type="text"/></p>
+    <p>PW: <input type="text"/></p>
+    <p>PW확인 <input type="text"/></p>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">MBTI : </label>
+        <select class="form-select" id="inputGroupSelect01">
+            <option selected>--나의 MBTI 선택하기--</option>
+            <option value="1">ISTJ</option>
+            <option value="2">ISFJ</option>
+            <option value="3">INFJ</option>
+            <option value="4">INTJ</option>
+            <option value="5">ISTP</option>
+            <option value="6">ISFP</option>
+            <option value="7">INFP</option>
+            <option value="8">INTP</option>
+            <option value="9">ESTP</option>
+            <option value="10">ESFP</option>
+            <option value="11">ENFP</option>
+            <option value="12">ENTP</option>
+            <option value="13">ESTJ</option>
+            <option value="14">ESFJ</option>
+            <option value="15">ENFJ</option>
+            <option value="16">ENTJ</option>
+        </select>
+    </div>
+    </div>
+    </p>
+    <div class="mybtn">
+        <button type="button" class="btn btn-outline-primary">가입 하기</button>
+    </div>
+</div>
 </body>
 </html>

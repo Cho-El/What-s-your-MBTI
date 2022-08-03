@@ -1,10 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>개발을 했다!!!!!!!!!!!!!!</title>
-</head>
-<body>
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>너의 MBTI는?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .mytitle {
+            width: 100%;
+            height: 200px;
+
+            /*background-color: green;*/
+
+            color: black;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .head_contents {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .head_item:nth-child(1) {
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .main_contents {
+            width: 90%;
+            max-width: 1500px;
+            height: 800px;
+            margin: 0 auto 0 auto;
+            /*background-color: aqua;*/
+
+        }
+
+        .item:nth-child(1) {
+            /*background-color: red;*/
+            flex-shrink: 0;
+            width: 200px;
+        }
+
+        .item:nth-child(2) {
+            /*background-color: gray;*/
+            flex-grow: 1;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .list_name {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .content {
+            margin: 20px 0 0 40px;
+        }
+
+        .comment_box {
+            width: 95%;
+            max-width: 1000px;
+            margin: 20px auto 0px auto;
+            padding: 50px;
+            box-shadow: 0px 0px 3px 0px gray;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+
+        }
+
+        .comment_box > h5 {
+            max-width: 75%;
+            font-size: 20px;
+            font-weight: 100;
+            margin-right: auto;
+            margin-bottom: 10px;
+        }
+
+        .comment_box > button {
+            margin-left: auto;
+        }
+
+        .comment_box > li {
+            width: 100%;
+            padding: 15px;
+            box-shadow: 0px 0px 10px 0px lightblue;
+            margin: 30px auto;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 10px;
+            min-height: 48px;
+        }
+
+        .comment_box > li > h2 {
+            word-wrap: break-word;
+            color: red;
+            max-width: 55%;
+            font-size: 21px;
+            font-weight: 100;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+        .delete_or_revise_btn{
+            margin-left: auto;
+        }
+        .delete_or_revise_btn > button{
+            padding: 5px 10px 5px 10px;
+        }
+        #revision{
+            margin-top: 10px;
+            margin-left: auto;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <!-- header == div -->
+    <header class="mytitle">
+        <h1></h1>
+        <h1>너의 MBTI는?</h1>
+        <div class="head_contents">
+            <h5 class="head_item">홍길동님</h5>
+            <button type="button" class="btn btn-outline-dark">Dark</button>
+        </div>
+    </header>
+
+    <!-- main == div -->
+    <div class="main_contents">
+        <div class='comment_box'>
+            <h5>
+                깻잎논쟁
+            </h5>
+            <p>
+                나 친구, 애인 셋이 밥 먹는데 <br>
+                친구가 먹으려는 깻잎 장아찌가 붙어있다.<br>
+                나의 애인이 젓가락으로 깻잎 떼주기<br>
+                가능? 불가능?<br>
+            </p>
+
+            <button type="button" class="btn btn-outline-dark">댓글 작성하기</button>
+
+            <li>
+                <h2>ENTP</h2>
+                <h2>홍길동</h2>
+                <h2>쌉가능!ddddddddddddddddddddddddddddd</h2>
+            </li>
+            <div class = "delete_or_revise_btn">
+                <button type="button" class="btn btn-outline-dark">삭제하기</button>
+                <button type="button" class="btn btn-outline-dark">수정하기</button>
+            </div>
+
+            <div class="input-group mb-3" id = "revision">
+                <input type="text" class="form-control" placeholder="수정할 내용을 입력하세요"
+                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black;" class = "button-addon">취소</button>
+                <button class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black;" id="button-addon2">수정완료</button>
+            </div>
+
+
+        </div>
+    </div>
 </body>
+
 </html>
