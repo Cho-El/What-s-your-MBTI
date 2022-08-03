@@ -131,6 +131,12 @@
             })
     }
 
+    <!-- 로그아웃 -->
+    function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!')
+            window.location.href = "/start"
+        }
     <!-- 민진 작성 코드 end -->
     </script>
 </head>
@@ -143,7 +149,7 @@
             <h1>너의 MBTI는?</h1>
             <div class="head_contents">
                 <h5 class = "head_item" >홍길동님</h5>
-                <button type="button" class="btn btn-outline-dark">로그아웃</button>
+                <button type="button" class="btn btn-outline-dark" onclick="sign_out()">로그아웃</button>
             </div>
         </header>
 
@@ -152,7 +158,7 @@
 
             <!-- main 1 : side_bar -->
             <div class="item">
-                <div class = "list_name" style="color: darkgray" onclick="location.href='/feature_post.html'">MBTI 공감 게시판
+                <div class = "list_name" style="color: darkgray" onclick="location.href='/'">MBTI 공감 게시판
                     <select class="form-select form-select-sm" style="color: darkgray" aria-label=".form-select-sm example" id="select-mbti" onchange="select_mbti()" style="width: 70%;">
                         <option value="ISTJ">ISTJ</option>
                         <option value="ISFJ">ISFJ</option>

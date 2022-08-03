@@ -125,21 +125,6 @@
 
                     let features = response['the_mbti_features']
 
-                    // mbti에 맞게 이미지 선정
-                    function mbtiToImage(mbti){
-                        var mbti_img_src;
-                        if (mbti in ['INFJ', 'INFP', 'ENFJ', 'ENFP']) {
-                            mbti_img_src = "../static/NF";
-                        } else if (mbti in ['INTJ', 'INTP', 'ENTJ', 'ENTP']) {
-                            mbti_img_src = "../static/NT.jpg"
-                        } else if (mbti in ['ISTJ', 'ISFJ', 'ESTJ', 'ESFJ']) {
-                            mbti_img_src = "../static/SF.jpg";
-                        } else if (mbti in ['ISTP', 'ISFP', 'ESFP', 'ESFP']) {
-                            mbti_img_src = "static/SP.jpg";
-                        }
-                        return mbti_img_src;
-                    }
-
                     let temp_img = `<div class="content" style="margin-left: -30px;">
                                         <img id="mbti_img" src="static/${selected_mbti}.jpg">
                                         <h1>${selected_mbti}</h1>
@@ -168,6 +153,14 @@
                 }
         })
     }
+
+    <!-- 로그아웃 -->
+        function sign_out() {
+                $.removeCookie('mytoken', {path: '/'});
+                alert('로그아웃!')
+                window.location.href = "/start"
+    }
+
     <!-- 민진 작성 코드 end -->
     </script>
 </head>
@@ -180,7 +173,7 @@
             <h1 class="title">너의 MBTI는?</h1>
             <div class="head_contents">
                 <div class="head_item">홍길동님</div>
-                <button type="button" class="btn btn-outline-dark">로그아웃</button>
+                <button type="button" class="btn btn-outline-dark" onclick="sign_out()">로그아웃</button>
             </div>
         </header>
 
@@ -207,7 +200,7 @@
                         <option value="ENTJ">ENTJ</option>
                     </select>
                 </div>
-                <div class="list_name" style="color: darkgray" onclick="location.href='discussion_post.html'">MBTI 토론장</div>
+                <div class="list_name" style="color: darkgray" onclick="location.href='/discussion'">MBTI 토론장</div>
             </div>
 
             <div class="item" id="content-box">
