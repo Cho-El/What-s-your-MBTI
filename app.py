@@ -24,8 +24,12 @@ def home():
     return render_template('index.html')
 
 @app.route('/discussion')
-def discussion_page():
+def discussion():
     return render_template('discussion_post.html')
+
+@app.route('/discussion/post')
+def discussion_page():
+    return render_template('disccusion_post_comments.html')
 
 @app.route('/feature')
 def feature_page():
