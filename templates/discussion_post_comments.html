@@ -142,40 +142,6 @@
         }
     </style>
     <script>
-        $(document).ready(function () {
-            show_comment();
-        });
-
-        function show_comment() {
-            $.ajax({
-                type: "GET",
-                url: "/comment",
-                data: {},
-                success: function (response) {
-                    let rows = response['comments']
-                    for (let i = 0; i < rows.length; i++) {
-                        let comment = rows[i]['comment']
-
-                        let temp_html = ``
-                            temp_html = `<li>
-                                            <h2>${comment}</h2>
-                                         </li>`
-                        $('comment-list').append(temp_html)
-                    }
-                }
-            });
-        }
-
-        function save_comment() {
-            $.ajax({
-                type: "POST",
-                url: "/comment",
-                data: {comment_give: '데이터전송'},
-                success: function (response) {
-                    alert(response["msg"])
-                }
-            });
-        }
         <!-- 민진 작성 코드 start -->
         $(document).ready(function () {
             show_comments()
@@ -203,7 +169,32 @@
                 }
             })
         }
+
+        function delete_post() {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/free_posts",
+                data: {post_id_give:post_id},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                    }
+                })
+        }
         <!-- 민진 작성 코드 end -->
+
+        <!-- 수민님 작성 코드 start-->
+        function save_comment() {
+            $.ajax({
+                type: "POST",
+                url: "/comment",
+                data: {comment_give: '데이터전송'},
+                success: function (response) {
+                    alert(response["msg"])
+                }
+            });
+        }
+        <!-- 수민님 작성 코드 end -->
     </script>
 </head>
 
@@ -231,6 +222,9 @@
                 나의 애인이 젓가락으로 깻잎 떼주기<br>
                 가능? 불가능?<br>
             </p>
+
+            <button type="button" class="btn btn-outline-danger" style="margin-bottom: 50px;" onclick="delete_post()">이 토론 삭제하기</button>
+
             <div class="input-group mb-3 revision">
                 <input type="text" class="form-control" placeholder="댓글을 입력하세요"
                        aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -243,7 +237,6 @@
                     <h2>쌉가능!ddddddddddddddddddddddddddddd</h2>
                 </li>
                 <div class = "delete_or_revise_btn">
-
                 <button type="button" class="btn btn-outline-dark">삭제하기</button>
                 <button type="button" class="btn btn-outline-dark">수정하기</button>
             </div>
