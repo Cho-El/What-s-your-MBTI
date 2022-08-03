@@ -8,9 +8,9 @@ import datetime
 import hashlib
 
 from pymongo import MongoClient
-#client = MongoClient('localhost', 27017)
+client = MongoClient('localhost', 27017)
 # 아래코드는 서버에 배포시
-client = MongoClient('mongodb://test:test@localhost', 27017) # Connection Setting시 유저 네임과 비밀번호를 입력해줘야되요 ex) MongoClient('mongodb://아이디:비번@localhost',27017)
+#client = MongoClient('mongodb://test:test@localhost', 27017) # Connection Setting시 유저 네임과 비밀번호를 입력해줘야되요 ex) MongoClient('mongodb://아이디:비번@localhost',27017)
 db = client.mbti
 
 # 성윤님 -----------------------------------------------------
@@ -22,7 +22,7 @@ db = client.mbti
 # HTML 보여주기
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('sign_up.html')
 
 @app.route('/feature')
 def feature_page():

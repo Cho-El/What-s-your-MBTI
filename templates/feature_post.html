@@ -112,6 +112,7 @@
 
     function select_mbti(){
         let selected_mbti = $('#select-mbti').val();
+
         $.ajax({
                 type: "POST",
                 url: "/api/mbti_features_posts",
@@ -119,28 +120,50 @@
                 success: function (response) {
                     alert(response["msg"]);
                     $("#cards-box").empty()
+                    $("#image-box").empty()
+
 
                     let features = response['the_mbti_features']
-                    console.log(features)
 
+                    // mbti에 맞게 이미지 선정
+                    function mbtiToImage(mbti){
+                        var mbti_img_src;
+                        if (mbti in ['INFJ', 'INFP', 'ENFJ', 'ENFP']) {
+                            mbti_img_src = "../static/NF";
+                        } else if (mbti in ['INTJ', 'INTP', 'ENTJ', 'ENTP']) {
+                            mbti_img_src = "../static/NT.jpg"
+                        } else if (mbti in ['ISTJ', 'ISFJ', 'ESTJ', 'ESFJ']) {
+                            mbti_img_src = "../static/SF.jpg";
+                        } else if (mbti in ['ISTP', 'ISFP', 'ESFP', 'ESFP']) {
+                            mbti_img_src = "static/SP.jpg";
+                        }
+                        return mbti_img_src;
+                    }
 
+                    let temp_img = `<div class="content" style="margin-left: -30px;">
+                                        <!-- <img id="mbti_img" src=${mbtiToImage(selected_mbti)}> -->
+                                        <h1>${selected_mbti}</h1>
+                                        <h5 style="font-weight: lighter">가장 공감되는 ${selected_mbti}의 특징에 좋아요를 눌러주세요.</h5>
+                                    </div>`
+                    $('#image-box').append(temp_img);
 
                     for (let i = 0; i < features.length; i++) {
                         let feature = features[i]['feature_content']
                         let like = features[i]['like']
 
                         let temp_html = `<div class="col-sm-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <p class="card-text">${feature}</p>
-                                                <div class="level-right">
-                                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                                    <span class="like-num">&nbsp;${like}</span>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p class="card-text">${feature}</p>
+                                                            <div class="level-right">
+                                                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                <span class="like-num">&nbsp;${like}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>`
-                        $('#cards-box').append(temp_html)
+                                            </div>`
+                        $('#cards-box').append(temp_html);
                     }
                 }
         })
@@ -165,8 +188,7 @@
         <main class="main_contents">
             <div class="item">
                 <div class="list_name">MBTI 특징
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select-mbti" onchange="select_mbti()">
-                        <option selected>-- 선택하기 --</option>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select-mbti" onchange="select_mbti()" style="width: 80%;">
                         <option value="ISTJ">ISTJ</option>
                         <option value="ISFJ">ISFJ</option>
                         <option value="INFJ">INFJ</option>
@@ -188,46 +210,14 @@
                 <div class="list_name">게시판</div>
 
             </div>
-            <div class="item">
-                <div class="content">
+            <div class="item" id="content-box">
+                <div class="content" id="image-box">
                     <!--나중에 static폴더에 이미지 받아서 넣기-->
-                    <img src="https://blog.kakaocdn.net/dn/duiuP8/btqEQXQTkeu/lqFPGyqg3dWbi02fru5DF0/img.png"
-                         class="content-img">
+                    <img src="../static/default_image.png" class="content-img">
+                    <script>document.getElementById('mbti_img').src=mbtiToImage(${selected_mbti})</script>
+                    <h5 style="font-weight: lighter">왼쪽 사이드바에서 당신의 mbti를 선택하세요.</h5>
                 </div>
                 <div class="row row-cols-3 row-cols-md-2 g-4" id="cards-box">
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="card-text">content1</p>
-                                <div class="level-right">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    <span class="like-num">&nbsp;2.7k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="card-text">content2</p>
-                                <div class="level-right">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    <span class="like-num">&nbsp;2.7k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="card-text">content3</p>
-                                <div class="level-right">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    <span class="like-num">&nbsp;2.7k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </main>
