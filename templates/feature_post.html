@@ -107,21 +107,29 @@
     <script>
     <!-- 민진 작성 코드 start -->
     $(document).ready(function () {
-        show_features()
+
     })
 
-    function show_features() {
+    function select_mbti(){
+        let selected_mbti = $('#select-mbti').val();
         $.ajax({
-            type: "GET",
-            url: "/api/mbti_features_posts",
-            data: {},
-            success: function (response) {
-                let features = response['the_mbti_features']
-                for (let i = 0; i < features.length; i++) {
-                    let feature = features[i]['feature_content']
-                    let like = features[i]['like']
+                type: "POST",
+                url: "/api/mbti_features_posts",
+                data: {mbti_give: selected_mbti},
+                success: function (response) {
+                    alert(response["msg"]);
+                    $("#cards-box").empty()
 
-                    let temp_html = `<div class="col-sm-4">
+                    let features = response['the_mbti_features']
+                    console.log(features)
+
+
+
+                    for (let i = 0; i < features.length; i++) {
+                        let feature = features[i]['feature_content']
+                        let like = features[i]['like']
+
+                        let temp_html = `<div class="col-sm-4">
                                         <div class="card">
                                             <div class="card-body">
                                                 <p class="card-text">${feature}</p>
@@ -132,9 +140,9 @@
                                             </div>
                                         </div>
                                     </div>`
-                    $('#????').append(temp_html)
+                        $('#cards-box').append(temp_html)
+                    }
                 }
-            }
         })
     }
     <!-- 민진 작성 코드 end -->
@@ -142,87 +150,88 @@
 </head>
 
 <body>
-<div>
-    <!-- header == div -->
-    <header class="mytitle">
-        <div></div>
-        <h1 class="title">너의 MBTI는?</h1>
-        <div class="head_contents">
-            <div class="head_item">홍길동님</div>
-            <button type="button" class="btn btn-outline-dark">로그인 / 로그아웃</button>
-        </div>
-    </header>
+    <div>
+        <!-- header == div -->
+        <header class="mytitle">
+            <div></div>
+            <h1 class="title">너의 MBTI는?</h1>
+            <div class="head_contents">
+                <div class="head_item">홍길동님</div>
+                <button type="button" class="btn btn-outline-dark">로그인 / 로그아웃</button>
+            </div>
+        </header>
 
-    <!-- main == div -->
-    <main class="main_contents">
-        <div class="item">
-            <div class="list_name">MBTI 특징
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    <option value="ISTJ">ISTJ</option>
-                    <option value="ISFJ">ISFJ</option>
-                    <option value="INFJ">INFJ</option>
-                    <option value="INTJ">INTJ</option>
-                    <option value="ISTP">ISTP</option>
-                    <option value="ISFP">ISFP</option>
-                    <option value="INFP">INFP</option>
-                    <option value="INTP">INTP</option>
-                    <option value="ESTP">ESTP</option>
-                    <option value="ESFP">ESFP</option>
-                    <option value="ENFP">ENFP</option>
-                    <option value="ENTP">ENTP</option>
-                    <option value="ESTJ">ESTJ</option>
-                    <option value="ESFJ">ESFJ</option>
-                    <option value="ENFJ">ENFJ</option>
-                    <option value="ENTJ">ENTJ</option>
-                </select>
-            </div>
-            <div class="list_name">게시판</div>
+        <!-- main == div -->
+        <main class="main_contents">
+            <div class="item">
+                <div class="list_name">MBTI 특징
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select-mbti" onchange="select_mbti()">
+                        <option selected>-- 선택하기 --</option>
+                        <option value="ISTJ">ISTJ</option>
+                        <option value="ISFJ">ISFJ</option>
+                        <option value="INFJ">INFJ</option>
+                        <option value="INTJ">INTJ</option>
+                        <option value="ISTP">ISTP</option>
+                        <option value="ISFP">ISFP</option>
+                        <option value="INFP">INFP</option>
+                        <option value="INTP">INTP</option>
+                        <option value="ESTP">ESTP</option>
+                        <option value="ESFP">ESFP</option>
+                        <option value="ENFP">ENFP</option>
+                        <option value="ENTP">ENTP</option>
+                        <option value="ESTJ">ESTJ</option>
+                        <option value="ESFJ">ESFJ</option>
+                        <option value="ENFJ">ENFJ</option>
+                        <option value="ENTJ">ENTJ</option>
+                    </select>
+                </div>
+                <div class="list_name">게시판</div>
 
-        </div>
-        <div class="item">
-            <div class="content">
-                <!--나중에 static폴더에 이미지 받아서 넣기-->
-                <img src="https://blog.kakaocdn.net/dn/duiuP8/btqEQXQTkeu/lqFPGyqg3dWbi02fru5DF0/img.png"
-                     class="content-img">
             </div>
-            <div class="row row-cols-3 row-cols-md-2 g-4">
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">content1</p>
-                            <div class="level-right">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <span class="like-num">&nbsp;2.7k</span>
+            <div class="item">
+                <div class="content">
+                    <!--나중에 static폴더에 이미지 받아서 넣기-->
+                    <img src="https://blog.kakaocdn.net/dn/duiuP8/btqEQXQTkeu/lqFPGyqg3dWbi02fru5DF0/img.png"
+                         class="content-img">
+                </div>
+                <div class="row row-cols-3 row-cols-md-2 g-4" id="cards-box">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">content1</p>
+                                <div class="level-right">
+                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                    <span class="like-num">&nbsp;2.7k</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">content2</p>
-                            <div class="level-right">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <span class="like-num">&nbsp;2.7k</span>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">content2</p>
+                                <div class="level-right">
+                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                    <span class="like-num">&nbsp;2.7k</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">content3</p>
-                            <div class="level-right">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <span class="like-num">&nbsp;2.7k</span>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">content3</p>
+                                <div class="level-right">
+                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                    <span class="like-num">&nbsp;2.7k</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
 </body>
 
 </script>
