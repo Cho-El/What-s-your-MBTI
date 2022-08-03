@@ -2,6 +2,12 @@
 from flask import Flask, render_template, jsonify, request
 app = Flask(__name__)
 
+from pymongo import MongoClient
+client = MongoClient('localhost', 27017)
+# 아래코드는 서버에 배포시
+# client = MongoClient('mongodb://test:test@localhost', 27017) # Connection Setting시 유저 네임과 비밀번호를 입력해줘야되요 ex) MongoClient('mongodb://아이디:비번@localhost',27017)
+db = client.mbti
+
 # 성윤님 -----------------------------------------------------
 
 # 병찬님 -----------------------------------------------------
