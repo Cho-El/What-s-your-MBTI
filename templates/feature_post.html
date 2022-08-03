@@ -107,7 +107,7 @@
     <script>
     <!-- 민진 작성 코드 start -->
     $(document).ready(function () {
-        window.location.reload()
+
     })
 
     function select_mbti(){
@@ -122,6 +122,9 @@
 
                     let features = response['the_mbti_features']
                     console.log(features)
+
+
+
                     for (let i = 0; i < features.length; i++) {
                         let feature = features[i]['feature_content']
                         let like = features[i]['like']

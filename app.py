@@ -60,7 +60,7 @@ def delete_post():
 @app.route('/api/comments', methods=['GET'])
 def show_comments():
     post_id = request.args.get('post_id')
-    comments = list(db.Comment.find({'Post._id': post_id}))
+    comments = list(db.Comment.find({'': post_id}))
     return jsonify({'all_comments': comments})
 
 # 수진님 -----------------------------------------------------
