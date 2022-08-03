@@ -142,7 +142,34 @@
         }
     </style>
     <script>
+        <!-- 민진 작성 코드 start -->
+        $(document).ready(function () {
+            show_comments()
+        })
 
+        function show_comments() {
+            $.ajax({
+                type: "GET",
+                url: "/api/comments",
+                data: {},
+                success: function (response) {
+                    let comments = response['all_comments']
+                    for (let i = 0; i < comments.length; i++) {
+                        let user_nickname = comments[i]['user_nickname']
+                        let user_mbti = comments[i]['user_mbti']
+                        let comment_content = comments[i]['comment_content']
+
+                        let temp_html = `<li>
+                                            <h2>${user_mbti}</h2>
+                                            <h2>${user_nickname}</h2>
+                                            <h2>${comment_content}</h2>
+                                        </li>`
+                        $('#comment-box').append(temp_html)
+                    }
+                }
+            })
+        }
+        <!-- 민진 작성 코드 end -->
     </script>
 </head>
 
@@ -159,7 +186,7 @@
 
     <!-- main == div -->
     <div class="main_contents">
-        <div class='comment_box'>
+        <div class='comment_box' id="comment-box">
             <h5>
                 깻잎논쟁
             </h5>
@@ -177,6 +204,7 @@
                 <h2>홍길동</h2>
                 <h2>쌉가능!ddddddddddddddddddddddddddddd</h2>
             </li>
+
             <div class = "delete_or_revise_btn">
                 <button type="button" class="btn btn-outline-dark">삭제하기</button>
                 <button type="button" class="btn btn-outline-dark">수정하기</button>
