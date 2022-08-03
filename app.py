@@ -2,6 +2,10 @@
 from flask import Flask, render_template, jsonify, request
 app = Flask(__name__)
 
+import jwt
+import datetime
+import hashlib
+
 from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 # 아래코드는 서버에 배포시
@@ -14,47 +18,31 @@ db = client.mbti
 
 # 민진님 -----------------------------------------------------
 
-# [유저 정보 확인 API]
-# 로그인된 유저만 call 할 수 있는 API입니다.
-# 유효한 토큰을 줘야 올바른 결과를 얻어갈 수 있습니다. (그렇지 않으면 남의 장바구니라든가, 정보를 누구나 볼 수 있겠죠?)
-@app.route('/api/nick', methods=['GET'])
-def api_valid():
-    token_receive = request.cookies.get('mytoken')
-    # try / catch 문 : try 아래를 실행했다가, 에러가 있으면 except 구분으로 가라는 뜻
-    try:
-        # token을 시크릿키로 디코딩합니다.
-        # 보실 수 있도록 payload를 print 해두었습니다. 우리가 로그인 시 넣은 그 payload와 같은 것이 나옵니다.
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        print(payload)
-
-        # payload 안에 id가 들어있습니다. 이 id로 유저정보를 찾습니다.
-        # 여기에선 그 예로 닉네임을 보내주겠습니다.
-        userinfo = db.user.find_one({'id': payload['id']}, {'_id': 0})
-        return jsonify({'result': 'success', 'nickname': userinfo['nick']})
-    except jwt.ExpiredSignatureError:
-        # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
-        return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
-    except jwt.exceptions.DecodeError:
-        return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
-
-# [특징 게시판 - 제목, 내용 가져오기 API]
+# < 특징 게시판 - 포스팅 가져오기 API>
 @app.route('/api/mbti_features_posts', methods=['GET'])
-def read_features():
-    features = list(db.Features.find({'my_mbti_type':selected_mbti}))
-    return jsonify({'all_features': features})
+def show_features():
+    selected_mbti = request.args.get('mbti')
+    features = list(db.Feature.find({'feature_mbti': selected_mbti}).sort('like', -1))
+    return jsonify({'the_mbti_features': features})
 
-# [논의 게시판 - 삭제 API]
+# < 논의 게시판 - 포스트 삭제 API >
 @app.route('/api/free_posts', methods=['DELETE'])
 def delete_post():
-    db.Posts.delete_one({'Posts._id': post_id})
-    return jsonify({'msg': '삭제 완료!'})
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        Post_id_receive = request.form["post_title_give"]
+        db.Post.delete_one({'user_id': payload['id'], 'Post._id': Post_id_receive})
+        return jsonify({'msg': '삭제 완료!'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
-# [논의 게시판 - 댓글 불러오기 API]
+# < 논의 게시판 - 댓글 불러오기 API >
 @app.route('/api/comments', methods=['GET'])
-def read_comments():
-    comments = list(db.Comments.find({'Posts._id': post_id}))
+def show_comments():
+    post_id = request.args.get('post_id')
+    comments = list(db.Comment.find({'Post._id': post_id}))
     return jsonify({'all_comments': comments})
-
 
 # 수진님 -----------------------------------------------------
 
