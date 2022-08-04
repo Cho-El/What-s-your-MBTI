@@ -117,8 +117,6 @@
     //    show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
     //});
 
-    //function show_posts() {}     <!-- 임시 이름. 성윤님 함수 불러오기 -->
-
     function delete_post() {
         $.ajax({
             type: "DELETE",
@@ -133,10 +131,11 @@
 
     <!-- 로그아웃 -->
     function sign_out() {
-            $.removeCookie('mytoken', {path: '/'});
-            alert('로그아웃!')
-            window.location.href = "/start"
-        }
+        $.removeCookie('mytoken', {path: '/'});
+        alert('로그아웃!')
+        window.location.href = "/start"
+    }
+
     <!-- 민진 작성 코드 end -->
     </script>
 </head>
@@ -194,10 +193,11 @@
                         <div class="col-sm-4">
                             <div class="card">
                                 <div class="card-body">
+                                    <h6 style="font-size: x-small; font-weight: lighter; color: darkgray">글 번호 : {{ post_num }}</h6>
                                     <h4 class="card-title">깻잎논쟁</h4>
                                     <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
                                     <br><br>
-                                    <a href="discussion_post_comments.html" class="btn btn-light">토론하러 가기</a>
+                                    <a href="/discussion/post" class="btn btn-light">토론하러 가기</a>
                                 </div>
                             </div>
                         </div>

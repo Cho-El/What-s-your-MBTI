@@ -33,7 +33,8 @@ def start():
 
 @app.route('/discussion')
 def discussion():
-    return render_template('discussion_post.html')
+    post_num = "0"
+    return render_template('discussion_post.html', post_num = post_num)
 
 # 테스트용 - 논의게시판 포스트 바로가기
 @app.route('/discussion/post')
