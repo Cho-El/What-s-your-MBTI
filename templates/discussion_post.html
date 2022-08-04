@@ -25,7 +25,9 @@
         .mytitle {
             width: 100%;
             height: 200px;
+
             /*background-color: green;*/
+
             color: black;
 
             display: flex;
@@ -33,131 +35,207 @@
             align-items: center;
             justify-content: space-around;
         }
-        .head_contents{
+
+        .head_contents {
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: space-around;
         }
-        .head_item:nth-child(1){
+
+        .head_item:nth-child(1) {
             margin-right: 10px;
             flex-shrink: 0;
         }
 
-        .main_contents{
+        .main_contents {
             width: 90%;
             max-width: 1500px;
             height: 800px;
-
-            margin : 0 auto 0 auto;
+            margin: 0 auto 0 auto;
             /*background-color: aqua;*/
-            display : flex;
-            flex-direction: row;
-            align-items: stretch;
-            justify-content: space-between;
-        }
-        .item:nth-child(1){
-            /*background-color: red;*/
-            flex-shrink: 0;
-            width: 200px;
+
         }
 
-        .item:nth-child(2){
-            /*background-color: gray;*/
-            flex-grow: 1;
-        }
-        ul{
+
+        ul {
             list-style: none;
         }
 
-        .list_name{
-            margin-top :20px;
+        .comment_box {
+            width: 95%;
+            max-width: 1000px;
+            margin: 20px auto 0px auto;
+            padding: 50px;
+            box-shadow: 0px 0px 3px 0px gray;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+
+        }
+        .comment_box > p {
+            word-wrap: break-word;
+            font-size: 18px;
+            font_weight: 100;
+            margin-right: auto;
+            margin-bottom:10px;
+            margin-top: 10px;
+        }
+
+        .comment_box > h5 {
+            max-width: 75%;
             font-size: 20px;
-        }
-        .discussion_zone{
-            margin : 20px 0 0 100px;
-        }
-        .content{
-            font-size: 30px;
-            font-weight: bold;
-        }
-        .form-select{
-            margin-top: 5px;
+            font-weight: 100;
+            margin-right: auto;
+            margin-bottom: 10px;
         }
 
-        .discussion_zone{
-            position: relative;
+        .comment_box > button {
+            margin-left: auto;
+        }
+        .wrap_comments{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .wrap_comments > li {
+            width: 100%;
+            padding: 15px;
+            box-shadow: 0px 0px 10px 0px lightblue;
+            margin: 30px auto;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 10px;
+            min-height: 48px;
         }
 
-        .content-light{
-            font-weight: lighter;
-            margin-top: 7px;
-            color: dimgray;
+        .wrap_comments > li > h2 {
+            word-wrap: break-word;
+            {#color: red;#}
+            max-width: 55%;
+            font-size: 21px;
+            font-weight: 100;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+        .input-group mb-3 {
+
+            margin-top: 30px;
         }
 
-        .btn-outline-secondary{
-            width: 110px;
-            margin-top: 20px;
-            margin-bottom: -30px;
-            font-size: smaller;
-
-
-            position: absolute;
-            right: 0;
+        .delete_or_revise_btn{
+            margin-left: auto;
         }
-
-        .card{
-            margin-top: 50px;
-            margin-left: 10px;
+        .delete_or_revise_btn > button{
+            padding: 5px 10px 5px 10px;
         }
-
+        .revision{
+            margin-top: 10px;
+            margin-left: auto;
+        }
     </style>
     <script>
-    <!-- 민진 작성 코드 start -->
-    $(document).ready(function () {
-        show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
-    });
+
+    // <!-- 민진 작성 코드 start -->
+    // $(document).ready(function () {
+    //     show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
+    // });
 
 
-    function show_posts(){
-        $("#card-box").empty()
-        $.ajax({
-            type: "GET",
-            url: "/api/free_posts",
-            data: {},
-            success: function (response) {
-                if (response["result"] == "success") {
-                    let free_posts = response["free_posts"]
-                    for (let i = 0; i< free_posts.length; i++){
-                        let post_title = free_posts[i]['post_title']
-                        let temp_html = `<div class="col-sm-4">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h4 class="card-title">${post_title}</h4>
-                                                    <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
-                                                    <br><br>
-                                                    <a href="discussion_post_comments.html" class="btn btn-light">토론하러 가기</a>
-                                                </div>
-                                            </div>
-                                        </div>`
-                        $("#card-box").append(temp_html)
+    // function show_posts(){
+    //     $("#card-box").empty()
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "/api/free_posts",
+    //         data: {},
+    //         success: function (response) {
+    //             if (response["result"] == "success") {
+    //                 let free_posts = response["free_posts"]
+    //                 for (let i = 0; i< free_posts.length; i++){
+    //                     let post_title = free_posts[i]['post_title']
+    //                     let temp_html = `<div class="col-sm-4">
+    //                                         <div class="card">
+    //                                             <div class="card-body">
+    //                                                 <h4 class="card-title">${post_title}</h4>
+    //                                                 <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
+    //                                                 <br><br>
+    //                                                 <a href="discussion_post_comments.html" class="btn btn-light">토론하러 가기</a>
+    //                                             </div>
+    //                                         </div>
+    //                                     </div>`
+    //                     $("#card-box").append(temp_html)
+    //                 }
+    //             }
+    //         }
+    //     })
+    // }
+//         <!-- 민진 작성 코드 start -->
+//         $(document).ready(function () {
+// >>>>>>> 민진-development
+
+//         {#function show_comments() {#}
+//         {#    $.ajax({#}
+//         {#        type: "GET",#}
+//         {#        url: "/api/comments",#}
+//         {#        data: {},#}
+//         {#        success: function (response) {#}
+//         {#            let comments = response['all_comments']#}
+//         {#            for (let i = 0; i < comments.length; i++) {#}
+//         {#                let user_nickname = comments[i]['user_nickname']#}
+//         {#                let user_mbti = comments[i]['user_mbti']#}
+//         {#                let comment_content = comments[i]['comment_content']#}
+//         {##}
+//         {#                let temp_html = `<li>#}
+//         {#                                    <h2>${user_mbti}</h2>#}
+//         {#                                    <h2>${user_nickname}</h2>#}
+//         {#                                    <h2>${comment_content}</h2>#}
+//         {#                                </li>`#}
+//         {#                $('#comment-box').append(temp_html)#}
+//         {#            }#}
+//         {#        }#}
+//         {#    })#}
+//         {#}#}
+
+        function delete_post() {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/free_posts",
+                data: {post_id_give:post_id},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
                     }
-                }
-            }
-        })
-    }
+                })
+        }
 
-    function delete_post() {
-        $.ajax({
-            type: "DELETE",
-            url: "/api/free_posts",
-            data: {post_id_give:post_id},
-            success: function (response) {
-                alert(response["msg"])
-                window.location.reload()
+        <!-- 로그아웃-->
+        function sign_out() {
+                $.removeCookie('mytoken', {path: '/'});
+                alert('로그아웃!')
+                window.location.href = "/start"
+        }
+
+        <!-- 민진 작성 코드 end -->
+
+        <!-- 수민님 작성 코드 start-->
+        function save_comment() {
+            $.ajax({
+                type: "POST",
+                url: "/comment",
+                data: {comment_give: '데이터전송'},
+                success: function (response) {
+                    alert(response["msg"])
                 }
-            })
-    }
+            });
+        }
 
     <!-- 로그아웃 -->
     function sign_out() {
@@ -166,10 +244,7 @@
         window.location.href = "/start"
     }
 
-    <!-- 민진 작성 코드 end -->
-    function regist_board(){
-        window.location.href = "/discussion_post_add/"
-    }
+        <!-- 수민님 작성 코드 end -->
     </script>
 </head>
 
@@ -183,172 +258,55 @@
                 <h5 class = "head_item" >홍길동님</h5>
                 <a href="sign_up_correct.html" class="btn btn-outline-dark" style="margin-right: 10px;">회원정보 수정</a>
                 <button type="button" class="btn btn-outline-dark" onclick="sign_out()">로그아웃</button>
+
             </div>
-        </header>
-
-        <!-- main == div -->
-        <div class = "main_contents">
-
-            <!-- main 1 : side_bar -->
-            <div class="item">
-                <div class = "list_name" style="color: darkgray" onclick="location.href='/'">MBTI 공감 게시판
-                    <select class="form-select form-select-sm" style="color: darkgray" aria-label=".form-select-sm example" id="select-mbti" onchange="select_mbti()" style="width: 70%;">
-                        <option value="ISTJ">ISTJ</option>
-                        <option value="ISFJ">ISFJ</option>
-                        <option value="INFJ">INFJ</option>
-                        <option value="INTJ">INTJ</option>
-                        <option value="ISTP">ISTP</option>
-                        <option value="ISFP">ISFP</option>
-                        <option value="INFP">INFP</option>
-                        <option value="INTP">INTP</option>
-                        <option value="ESTP">ESTP</option>
-                        <option value="ESFP">ESFP</option>
-                        <option value="ENFP">ENFP</option>
-                        <option value="ENTP">ENTP</option>
-                        <option value="ESTJ">ESTJ</option>
-                        <option value="ESFJ">ESFJ</option>
-                        <option value="ENFJ">ENFJ</option>
-                        <option value="ENTJ">ENTJ</option>
-                    </select>
-                </div>
-                <div class = "list_name" style="font-weight: bolder">MBTI 토론장</div>
+        {% endfor %}
+            <div class = "delete_or_revise_btn">
+                <a href = "discussion_post_correct.html" class="btn btn-outline-primary" style="margin-bottom: 50px;" onclick="delete_post()">글 수정</button></a>
+                <button type="button" class="btn btn-outline-danger" style="margin-bottom: 50px;" onclick="delete_post()">글 삭제</button>
+            </div>
+            <div class="input-group mb-3 revision">
+                <input type="text" class="form-control" placeholder="댓글을 입력하세요"
+                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" class = "button-addon">작성 완료</button>
             </div>
 
-            <!-- main 2 : discussion posts -->
-            <div class = "item">
-                <div class = "discussion_zone">
-                    <div class = "content">
-                        📢 MBTI 토론 게시판
-                    </div>
-                    <h5 class = "content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
-                    <button onclick="location.href='/discussion_post_add'" type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
-                        <br>
-                    <div id = "card-box" class="row">
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h6 style="font-size: x-small; font-weight: lighter; color: darkgray">글 번호 : {{ post_num }}</h6>
-                                    <h4 class="card-title">깻잎논쟁</h4>
-                                    <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
-                                    <br><br>
-                                    <a href="/discussion/post" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">롱패딩 논쟁</h4>
-                                    <!-- <p class="card-text">내 이성친구가 남/여사친의 롱패딩 지퍼를 올려줘도 되는가?</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">'멍때리기'란?</h4>
-                                    <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">"나 교통사고 났어"에 대한 대답은?</h4>
-                                    <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">영희와 철수, 누가 더 나쁜가?</h4>
-                                    <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">시험에 떨어진 친구에게</h4>
-                                    <!-- <p class="card-text">아자차카타파하</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">'사과'하면 떠오르는 것은?</h4>
-                                    <!-- <p class="card-text">아자차카타파하</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">여행 가기 전 준비과정</h4>
-                                    <!-- <p class="card-text">아자차카타파하</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">가끔 어떤 망상해?</h4>
-                                    <!-- <p class="card-text">아자차카타파하</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">가나다라마바사</h4>
-                                    <!-- <p class="card-text">아자차카타파하</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">가나다라마바사</h4>
-                                    <!-- <p class="card-text">아자차카타파하</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">가나다라마바사</h4>
-                                    <!-- <p class="card-text">아자차카타파하</p> -->
-                                    <br><br>
-                                    <a href="#" class="btn btn-light">토론하러 가기</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <table class="table comment-table" style="font-size: large;">
+            <tbody>
+            {% for comment in comments %}
+            <tr>
+                <td> {{ comment.user_mbti }} </td>
+                <td> {{ comment.user_nickname }} </td>
+                <td> {{ comment.comment_content }} </td>
+                <td style="text-align: right"><div class="delete_or_revise_btn"><button type="button" class="btn btn-outline-primary">수정</button><button type="button" class="btn btn-outline-danger">삭제</button></div></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+{#            {% for comment in comments %}#}
+{#                <div class="wrap_comments" id="commment-box">#}
+{#                    <li>#}
+{#                        <h2> {{ comment.user_mbti }} </h2>#}
+{#                        <h2> {{ comment.user_nickname }} </h2>#}
+{#                        <h2> {{ comment.comment_content }} </h2>#}
+{#                    </li>#}
+{#                {% if status %}#}
+{#                    <div class="delete_or_revise_btn">#}
+{#                        <button type="button" class="btn btn-outline-primary">댓글 수정</button>#}
+{#                        <button type="button" class="btn btn-outline-danger">댓글 삭제</button>#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#                </div>#}
+{#            {% endfor %}#}
+<!--            이 밑에 수정란 쓰는 부분은 수정하기 누르는 경우에만 뜨게 설정할 예정-->
+            <div class="input-group mb-3 revision">
+                <input type="text" class="form-control" placeholder="수정할 내용을 입력하세요"
+                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" class = "button-addon">취소</button>
+                <button class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" id="button-addon2">수정완료</button>
             </div>
         </div>
     </div>
 </body>
+
 </html>
