@@ -38,7 +38,44 @@ def discussion():
 
 
 # 성윤님 -----------------------------------------------------
+@app.route('/api/free_posts', methods = ['GET'])
+def get_free_posts():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        free_posts = list(db.free_posts.find({}))
+        # posts = list(db.posts.find({}).sort("date", -1).limit(20))
 
+        for free_post in free_posts:
+            free_post['post_title'] = str(free_post['post_title'])
+            free_post['post_content'] = str(free_post['post_content'])
+
+        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "free_posts": free_posts})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+@app.route('/api/update_like', methods = ['POST'])
+def update_like(): # 아직 미완성
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        post_id_receive = request.form["post_id_give"]
+        type_receive = request.form["type_give"]
+        action_receive = request.form["action_give"]
+        doc = {
+            "post_id": post_id_receive,
+            "username": user_info["username"],
+            "type": type_receive
+        }
+        if action_receive == "like":
+            db.likes.insert_one(doc)
+        else:
+            db.likes.delete_one(doc)
+        count = db.likes.count_documents({"post_id": post_id_receive, "type": type_receive})
+        return jsonify({"result": "success", 'msg': 'updated', "count": count})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 # 병찬님 -----------------------------------------------------
 @app.route("/api/mbti_features_posts", methods=["POST"])
 def board_post():
