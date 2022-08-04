@@ -107,25 +107,54 @@ def update_like():
 #         return redirect(url_for("home"))
 
 # 병찬님 -----------------------------------------------------
+@app.route('/discussion_post_add')
+def discussion_post_add():
+    return render_template('discussion_post_add.html')
+
+@app.route('/discussion_post_back')
+def discussion_back():
+    return render_template('discussion_post.html')
+
+
+@app.route('/discussion_post_complete')
+def discussion_post():
+    return render_template('discussion_post.html')
+
 @app.route("/api/mbti_features_posts", methods=["POST"])
 def board_post():
     token_receive = request.cookies.get('mytoken')
 
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms = ['HS256'])
-        user_info = db.users.fine_one({"username":payload["id"]})
+        user_info = payload["id"]
         post_title_receive = request.form['post_title_give']
         post_content_receive = request.form['post_content_give']
 
         doc = {
             'user_id': user_info,
             'post_title': post_title_receive,
-            'post_content': post_content_receive,
+            'post_content': post_content_receive
         }
-        db.Post.insert_one(doc)
+        db.free_posts.insert_one(doc)
         return jsonify({"result":"success",'msg':"성공"})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return jsonify(url_for("home?"))
+        return redirect(url_for("home"))
+
+@app.route("/api/comments", methods=["PUT"])
+def modify_comment():
+    token_receive = request.cookies.get('mytoken')
+
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms = ['HS256'])
+        post_id = request.args.get('post_id')
+        user_info = payload["id"]
+        modify_comment_receive = request.form['modify_comment_give']
+
+        db.Post.update_one({'post_id': post_id, 'user_id': user_info}, {'$set': {'comment_content': modify_comment_receive}})
+        return jsonify({"result": "success", 'msg': "성공"})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
 
 # 민진님 -----------------------------------------------------
 
