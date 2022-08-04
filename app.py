@@ -113,6 +113,23 @@ def board_post():
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
+@app.route("/api/comments", methods=["PUT"])
+def modify_comment():
+    token_receive = request.cookies.get('mytoken')
+
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms = ['HS256'])
+        post_id = request.args.get('post_id')
+        user_info = payload["id"]
+        modify_comment_receive = request.form['modify_comment_give']
+
+        db.Post.update_one({'post_id': post_id, 'user_id':user_info}, {'$set': {'comment_content': modify_comment_receive}})
+        return jsonify({"result":"success",'msg':"성공"})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+
 # 민진님 -----------------------------------------------------
 
 # < 특징 게시판 - 선택한 MBTI의 특징들 가져오기 API >
