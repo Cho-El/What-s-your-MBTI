@@ -28,6 +28,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            color: black;
         }
 
         .mytitle::before {
@@ -238,11 +239,7 @@
             }
 
         <!-- 로그아웃 -->
-        function sign_out() {
-                $.removeCookie('mytoken', {path: '/'});
-                alert('로그아웃!')
-                window.location.href = "/start"
-        }
+
     </script>
 </head>
 

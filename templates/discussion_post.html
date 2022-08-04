@@ -160,11 +160,7 @@
     }
 
     <!-- 로그아웃 -->
-    function sign_out() {
-        $.removeCookie('mytoken', {path: '/'});
-        alert('로그아웃!')
-        window.location.href = "/start"
-    }
+
 
     <!-- 민진 작성 코드 end -->
     function regist_board(){
@@ -182,7 +178,7 @@
             <div class="head_contents">
                 <h5 class = "head_item" >홍길동님</h5>
                 <a href="sign_up_correct.html" class="btn btn-outline-dark" style="margin-right: 10px;">회원정보 수정</a>
-                <button type="button" class="btn btn-outline-dark" onclick="sign_out()">로그아웃</button>
+                <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/start'">로그아웃</button>
             </div>
         </header>
 

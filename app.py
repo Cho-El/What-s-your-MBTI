@@ -1,5 +1,5 @@
 # flask 기본코드------------------------------
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 app = Flask(__name__)
 
 import jwt
@@ -217,6 +217,15 @@ def check_dup():
     exists = bool(db.User.find_one({"user_id": username_receive}))
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
+
+# 로그아웃(수정완)
+@app.route('/api/logout')
+def sign_out():
+    session.clear()
+    return redirect(url_for('/start'))
+
+
+
 
 # 수민님 -----------------------------------------------------
 
