@@ -35,6 +35,15 @@ def start():
 def discussion():
     post_num = "0"
     return render_template('discussion_post.html', post_num = post_num)
+@app.route('/discussion_post_correct')
+def discussion_post_correct():
+    msg = request.args.get("msg")
+    return render_template('discussion_post_correct.html', msg=msg)
+
+@app.route('/sign_up_correct')
+def sign_up_correct():
+    msg = request.args.get("msg")
+    return render_template('sign_up_correct.html', msg=msg)
 
 
 # 성윤님 -----------------------------------------------------
@@ -260,23 +269,30 @@ def sign_out():
 
 
 # 수민님 -----------------------------------------------------
-# [논의 게시판 게시글 수정 바로 가기]
-@app.route('/discussion/post/comments')
-def discussion_page():
-    return render_template('discussion_post_add.html')
 
-# [논의 게시판 댓글 쓰기]
-@app.route("/comment", methods=["POST"])
-def comment_post():
-    comment_receive = request.form['comment_give']
-
+# [회원 정보 수정 - 수정 완료!]
+@app.route('/api/sign_up/correctt', methods=['PUT'])
+def sign_up_correctt():
+    nickname_receive = request.form['nickname_give']
+    mbti_receive = request.form['mbti_give']
     doc = {
-        'comment': comment_receive
+        "user_nickname": nickname_receive,  # 닉네임
+        "user_mbti": mbti_receive  # mbti
     }
+    db.Sign.insert_one(doc)
+    return jsonify({'result': 'success'})
 
-    db.Comment.insert_one(doc)
-
-    return jsonify({'msg': '등록 완료!'})
+# [논의 게시판 게시글 수정]
+@app.route('/api/free_posts_', methods=['PUT'])
+def update_post():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        post_id_receive = request.form['post_id_give']
+        db.Post.update_one({'user_id': payload['id'], 'Post._id': post_id_receive})
+        return jsonify({'msg': '수정 완료!'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 @app.route("/comment", methods=["GET"])
