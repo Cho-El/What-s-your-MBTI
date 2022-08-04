@@ -149,61 +149,6 @@
     //     show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
     // });
 
-
-    // function show_posts(){
-    //     $("#card-box").empty()
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "/api/free_posts",
-    //         data: {},
-    //         success: function (response) {
-    //             if (response["result"] == "success") {
-    //                 let free_posts = response["free_posts"]
-    //                 for (let i = 0; i< free_posts.length; i++){
-    //                     let post_title = free_posts[i]['post_title']
-    //                     let temp_html = `<div class="col-sm-4">
-    //                                         <div class="card">
-    //                                             <div class="card-body">
-    //                                                 <h4 class="card-title">${post_title}</h4>
-    //                                                 <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
-    //                                                 <br><br>
-    //                                                 <a href="discussion_post_comments.html" class="btn btn-light">토론하러 가기</a>
-    //                                             </div>
-    //                                         </div>
-    //                                     </div>`
-    //                     $("#card-box").append(temp_html)
-    //                 }
-    //             }
-    //         }
-    //     })
-    // }
-//         <!-- 민진 작성 코드 start -->
-//         $(document).ready(function () {
-// >>>>>>> 민진-development
-
-//         {#function show_comments() {#}
-//         {#    $.ajax({#}
-//         {#        type: "GET",#}
-//         {#        url: "/api/comments",#}
-//         {#        data: {},#}
-//         {#        success: function (response) {#}
-//         {#            let comments = response['all_comments']#}
-//         {#            for (let i = 0; i < comments.length; i++) {#}
-//         {#                let user_nickname = comments[i]['user_nickname']#}
-//         {#                let user_mbti = comments[i]['user_mbti']#}
-//         {#                let comment_content = comments[i]['comment_content']#}
-//         {##}
-//         {#                let temp_html = `<li>#}
-//         {#                                    <h2>${user_mbti}</h2>#}
-//         {#                                    <h2>${user_nickname}</h2>#}
-//         {#                                    <h2>${comment_content}</h2>#}
-//         {#                                </li>`#}
-//         {#                $('#comment-box').append(temp_html)#}
-//         {#            }#}
-//         {#        }#}
-//         {#    })#}
-//         {#}#}
-
         function delete_post() {
             $.ajax({
                 type: "DELETE",
@@ -212,9 +157,38 @@
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
-                    }
-                })
+                }
+            })
         }
+
+        function show_posts(){
+            $("#card-box").empty()
+            $.ajax({
+                type: "GET",
+                url: "/api/free_posts",
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let free_posts = response["free_posts"]
+                        for (let i = 0; i< free_posts.length; i++){
+                            let post_title = free_posts[i]['post_title']
+                            let temp_html = `<div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">${post_title}</h4>
+                                                        <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
+                                                        <br><br>
+                                                        <a href="/discussion_post_comments" class="btn btn-light">토론하러 가기</a>
+                                                    </div>
+                                                </div>
+                                            </div>`
+                            $("#card-box").append(temp_html)
+
+                        }
+                    }
+                    }
+                    })
+            }
 
         <!-- 로그아웃-->
         function sign_out() {
@@ -282,28 +256,27 @@
             </tr>
             {% endfor %}
         </table>
-
-{#            {% for comment in comments %}#}
-{#                <div class="wrap_comments" id="commment-box">#}
-{#                    <li>#}
-{#                        <h2> {{ comment.user_mbti }} </h2>#}
-{#                        <h2> {{ comment.user_nickname }} </h2>#}
-{#                        <h2> {{ comment.comment_content }} </h2>#}
-{#                    </li>#}
-{#                {% if status %}#}
-{#                    <div class="delete_or_revise_btn">#}
-{#                        <button type="button" class="btn btn-outline-primary">댓글 수정</button>#}
-{#                        <button type="button" class="btn btn-outline-danger">댓글 삭제</button>#}
-{#                    </div>#}
-{#                {% endif %}#}
-{#                </div>#}
-{#            {% endfor %}#}
-<!--            이 밑에 수정란 쓰는 부분은 수정하기 누르는 경우에만 뜨게 설정할 예정-->
+        
+            <!-- 이 밑에 수정란 쓰는 부분은 수정하기 누르는 경우에만 뜨게 설정할 예정-->
             <div class="input-group mb-3 revision">
                 <input type="text" class="form-control" placeholder="수정할 내용을 입력하세요"
                        aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" class = "button-addon">취소</button>
                 <button class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" id="button-addon2">수정완료</button>
+
+            <!-- main 2 : discussion posts -->
+            <div class = "item">
+                <div class = "discussion_zone">
+                    <div class = "content">
+                        📢 MBTI 토론 게시판
+                    </div>
+                    <h5 class = "content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
+                    <button onclick="location.href='/discussion_post_add'" type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
+                        <br>
+                    <div id = "card-box" class="row">
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
