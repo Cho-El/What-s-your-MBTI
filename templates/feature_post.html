@@ -109,7 +109,9 @@
     $(document).ready(function () {
 
     })
-
+    function toggle_like(post_id, type){
+        let $a_like = $(`${post_id} `)
+    }
     function select_mbti(){
         let selected_mbti = $('#select-mbti').val();
 
@@ -135,8 +137,8 @@
                     for (let i = 0; i < features.length; i++) {
                         let feature = features[i]['feature_content']
                         let like = features[i]['like']
-
-                        let temp_html = `<div class="col-sm-4">
+                        
+                        let temp_html = `<div class="col-sm-4>
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <p class="card-text">${feature}</p>
@@ -215,6 +217,11 @@
             </div>
         </main>
     </div>
+    <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post['_id']}', 'heart')">
+                                                            <span class="icon is-small"><i class="fa ${class_heart}"
+                                                                                           aria-hidden="true"></i></span>&nbsp;<span
+            class="like-num">${count_heart}</span>
+    </a>
 </body>
 
 </script>
