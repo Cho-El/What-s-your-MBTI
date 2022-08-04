@@ -31,14 +31,16 @@ def start():
     msg = request.args.get("msg")
     return render_template('sign_up.html', msg=msg)
 
-# discussion_post.html 렌더링
 @app.route('/discussion_post')
 def discussion():
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     discussion_posts = list(db.free_post.find({},{'_id':False}))
     return render_template('discussion_post.html')
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> main
     post_num = "0"
     return render_template('discussion_post.html', post_num = post_num)
 @app.route('/discussion_post_correct')
@@ -50,16 +52,14 @@ def discussion_post_correct():
 def sign_up_correct():
     msg = request.args.get("msg")
     return render_template('sign_up_correct.html', msg=msg)
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> main
 
-# 민진 작성 --------------------------------------------------
-@app.route('/discussion_post/<post_id>')
-def move_to_comments(post_id):
-    post_info = db.free_posts.find({'post_id':post_id}, {'_id':False})
-    comments = list(db.Comment.find({'post_id':post_id}, {'_id':False}))
-    return render_template('discussion_post_comments.html', post_info = post_info, comments = comments)
 
 # 성윤님 -----------------------------------------------------
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 @app.route('/discussion_post_comments')
@@ -82,6 +82,11 @@ def move_to_comments(post_id):
 # @app.route('/discussion_post_comments')
 # def discussion_post_comments():
 #     return render_template('discussion_post_comments.html')
+=======
+@app.route('/discussion_post_comments/<post_id>')
+def discussion_post_comments(post_id):
+    return render_template('discussion_post_comments.html', post_id = post_id)
+>>>>>>> main
 
 @app.route('/api/free_posts', methods = ['GET'])
 def get_free_posts():
@@ -89,7 +94,7 @@ def get_free_posts():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         free_posts = list(db.free_posts.find({}))
-        # posts = list(db.free_post.find({}).sort("date", -1).limit(20))
+        # posts = list(db.posts.find({}).sort("date", -1).limit(20))
 
         for free_post in free_posts:
             free_post['_id'] = str(free_post['_id'] )
@@ -158,6 +163,7 @@ def discussion_post_add():
 def discussion_back():
     return render_template('discussion_post.html')
 
+
 @app.route('/discussion_post_complete')
 def discussion_post():
     return render_template('discussion_post.html')
@@ -165,7 +171,6 @@ def discussion_post():
 @app.route("/api/mbti_features_posts", methods=["POST"])
 def board_post():
     token_receive = request.cookies.get('mytoken')
-
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms = ['HS256'])
         user_info = payload["id"]
@@ -196,23 +201,41 @@ def modify_comment():
         return jsonify({"result": "success", 'msg': "성공"})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
-
-
 # 민진님 -----------------------------------------------------
 
-# < 특징 게시판 - 선택한 MBTI의 특징들 가져오기 API >  ---------  삭제??? 성윤님이 이미 구현한 기능??
-@app.route('/api/mbti_features_posts', methods=['POST'])
+# < 특징 게시판 - 선택한 MBTI의 특징들 가져오기 API >
+@app.route('/api/mbti_features_posts1', methods=["GET"])
 def select_mbti_feature():
-    mbti_receive = request.form['mbti_give']
-    features = list(db.Feature.find({'feature_mbti': mbti_receive},{'_id':False}).sort('like', -1))
-    return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        mbti_receive = request.args.get('mbti_give')
+        features = list(db.Feature.find({'feature_mbti': mbti_receive}).sort('like', -1))
+
+
+        for feature in features:
+            feature["_id"] = str(feature["_id"])
+            feature["like"] = db.likes.count_documents({"feature_id": feature["_id"], "type": "heart"})
+            feature["heart_by_me"] = bool(db.likes.find_one({"feature_id": feature["_id"], "type": "heart", "user_id": payload['id']}))
+            feature["feature_content"] = str(feature["feature_content"])
+            feature["feature_mbti"] = mbti_receive
+
+        print(features)
+        return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 # < 논의 게시판 - 포스트 삭제 API >
 @app.route('/api/free_posts', methods=['DELETE'])
 def delete_post():
-    post_id_receive = request.form['post_id_give']
-    db.Post.delete_one({'post_id': post_id_receive})
-    return jsonify({'msg': '삭제 완료!'})
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        post_id_receive = request.form['post_id_give']
+        db.Post.delete_one({'user_id': payload['id'], 'Post._id': post_id_receive})
+        return jsonify({'msg': '삭제 완료!'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 # < 논의 게시판 - 댓글 불러오기 API >
 @app.route('/api/comments', methods=['GET'])
@@ -273,24 +296,40 @@ def check_dup():
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
 
+# 로그아웃(수정완)
+@app.route('/api/logout')
+def sign_out():
+    session.clear()
+    return redirect(url_for('/start'))
+
+
+
+
 # 수민님 -----------------------------------------------------
-# [논의 게시판 게시글 수정 바로 가기]
-@app.route('/discussion/post/comments')
-def discussion_page():
-    return render_template('discussion_post_add.html')
 
-# [논의 게시판 댓글 쓰기]
-@app.route("/comment", methods=["POST"])
-def comment_post():
-    comment_receive = request.form['comment_give']
-
+# [회원 정보 수정 - 수정 완료!]
+@app.route('/api/sign_up/correctt', methods=['PUT'])
+def sign_up_correctt():
+    nickname_receive = request.form['nickname_give']
+    mbti_receive = request.form['mbti_give']
     doc = {
-        'comment': comment_receive
+        "user_nickname": nickname_receive,  # 닉네임
+        "user_mbti": mbti_receive  # mbti
     }
+    db.Sign.insert_one(doc)
+    return jsonify({'result': 'success'})
 
-    db.Comment.insert_one(doc)
-
-    return jsonify({'msg': '등록 완료!'})
+# [논의 게시판 게시글 수정]
+@app.route('/api/free_posts_', methods=['PUT'])
+def update_post():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        post_id_receive = request.form['post_id_give']
+        db.Post.update_one({'user_id': payload['id'], 'Post._id': post_id_receive})
+        return jsonify({'msg': '수정 완료!'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 @app.route("/comment", methods=["GET"])
