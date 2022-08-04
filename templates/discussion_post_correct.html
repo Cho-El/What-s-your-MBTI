@@ -42,27 +42,65 @@
             margin-right: 10px;
         }
     </style>
+    <script>
+        function save_board() {
+            let post_title = $('#floatingInput').val()
+            let post_content = $('#floatingTextarea2').val()
+
+            if (post_title.toString().trim() == "") {
+                alert("제목을 입력해주시길 바랍니다.")
+            } else if (post_content.toString().trim() == "") {
+                alert("내용을 입력해주시길 바랍니다.")
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/mbti_features_posts",
+                    data: {
+                        post_title_give: post_title,
+                        post_content_give: post_content
+                    },
+                    error: function (response) {
+                        alert(response["msg"]);
+                    },
+                    success: function (response) {
+                        alert(response["msg"]);
+                        window.location.href = "/discussion_post_complete";
+                    },
+                    complete: function () {
+                        //window.location.href = "/discussion_post";
+                    }
+                });
+            }
+        }
+
+        function cancel_regist() {
+            alert('작성 취소')
+            window.location.href = "/discussion_post"
+        }
+    </script>
+    <!--병찬님 코드 그대로 -->
+
 </head>
 
 <body>
 
-    <div class="mypost">
-        <h2 style="margin-bottom: 30px;">토론 주제 수정하기</h2>
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Title</label>
-        </div>
+<div class="mypost">
+    <h2 style="margin-bottom: 30px;">토론 주제 수정하기</h2>
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Title</label>
+    </div>
 
-        <div class="form-floating">
+    <div class="form-floating">
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
                       style="height: 200px"></textarea>
-            <label for="floatingTextarea2">Comment</label>
-        </div>
-        <div class="mybtns">
-            <button type="button" class="btn btn-dark">등록</button>
-            <button type="button" class="btn btn-outline-dark">취소</button>
-        </div>
+        <label for="floatingTextarea2">Comment</label>
     </div>
+    <div class="mybtns">
+        <button onclick = "save_board()" type="button" class="btn btn-dark">등록</button>
+        <button onclick="location.href='/discussion_post_back'" type="button" class="btn btn-outline-dark">취소</button>
+    </div>
+</div>
 
 </body>
 

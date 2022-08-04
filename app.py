@@ -40,6 +40,10 @@ def discussion():
 def sign_up_correct():
     return render_template('sign_up_correct.html')
 
+@app.route('/discussion_post_correct')
+def discussion_post_correct():
+    return render_template('discussion_post_correct.html')
+
 
 # 성윤님 -----------------------------------------------------
 @app.route('/api/free_posts', methods = ['GET'])
