@@ -64,7 +64,7 @@
                     },
                     success: function (response) {
                         alert(response["msg"]);
-                        window.location.href = "/discussion_post_complete";
+                        window.location.href = "/discussion_post";
                     },
                     complete: function () {
                         //window.location.href = "/discussion_post";
@@ -75,7 +75,7 @@
 
         function cancel_regist() {
             alert('작성 취소')
-            window.location.href = "/discussion_post"
+            window.location.redirect = "/discussion_post"
         }
     </script>
     <!--병찬님 코드 그대로 -->

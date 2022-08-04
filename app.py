@@ -110,11 +110,6 @@ def discussion_post_add():
 def discussion_back():
     return render_template('discussion_post.html')
 
-
-@app.route('/discussion_post_complete')
-def discussion_post():
-    return render_template('discussion_post.html')
-
 @app.route("/api/mbti_features_posts", methods=["POST"])
 def board_post():
     token_receive = request.cookies.get('mytoken')
