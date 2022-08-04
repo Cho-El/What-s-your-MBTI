@@ -1,17 +1,19 @@
 <html lang="en">
 <head>
-    <<meta charset="utf-8">
+    <meta charset="UTF-8">
+    <title>너의 MBTI는?  |  로그인</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-
-    <title>회원 정보 수정</title>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!--폰트-->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <style>
         * {
@@ -19,10 +21,8 @@
         }
         .mytitle {
 
-
-
             width: 100%;
-            height: 150px;
+            height: 300px;
 
             display: flex;
             flex-direction: column;
@@ -31,59 +31,151 @@
         }
 
         .wrap {
-
-
-            width: 500px;
-            margin: 50px auto 0 auto;
+            width: 400px;
+            margin: auto;
         }
 
 
     </style>
+
+    <script>
+        // {% if msg %}
+        //     alert("{{ msg }}")
+        // {% endif %}
+
+        <!-- 회원가입창 토글 -->
+        // {#togleClass-밑 참조 #}
+        function toggle_sign_up() {
+                $("#sign-up-box").toggleClass("is-hidden")
+                $("#div-sign-in-or-up").toggleClass("is-hidden")
+                $("#help-nickname").toggleClass("is-hidden")
+                $("#help-mbti").toggleClass("is-hidden")
+        }
+
+
+
+        <!-- 회원 정보 수정 -->
+        // {# 회원 정보 수정 클라이언트 #}
+            function sign_up_correct() {
+                let nickname = $("#input-nickname").val()
+                let mbti = $("#inputGroupSelect01").val()
+                console.log(mbti)
+
+
+                if (nickname == "") {
+                    $("#help-nickname").text("닉네임을 입력해주세요.")
+                    $("#input-nickname").focus()
+                    return;
+                } else {
+                    $("#help-id-login").text("")
+                }
+
+                if (mbti == "None") {
+                    $("#help-mbti").text("MBTI를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                    $("#input-username").focus()
+                    return;
+                }
+
+
+
+            // {# username과 password 서버로 전달 #}
+                $.ajax({
+                    type: "POST",
+                    url: "api/signup/save",
+                    data: {
+                        nickname_give: nickname,
+                        mbti_give: mbti
+                    },
+                    success: function (response) {
+                        alert("회원 정보가 수정 되었습니다!")
+                        window.location.replace("/start")
+                    }
+                });
+            }
+
+
+    </script>
 </head>
 
 <body>
 
-<div class="mytitle">
-    <h1>너의 MBTI는?</h1>
-</div>
+    <div class="mytitle">
+        <h1 style="font-size: 50px;">너의 MBTI는?</h1>
+    </div>
 
-<div class="wrap">
-    <div>
-    <h3>회원 정보</h3>
-    <p>
-        ID: <input type="text"/>
-        <button type="button" class="btn btn-outline-primary">중복 확인</button>
-    </p>
-    <p>닉네임: <input type="text"/></p>
-    <p>PW: <input type="text"/></p>
-    <p>PW확인 <input type="text"/></p>
-    <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">MBTI : </label>
-        <select class="form-select" id="inputGroupSelect01">
-            <option selected>--나의 MBTI 선택하기--</option>
-            <option value="1">ISTJ</option>
-            <option value="2">ISFJ</option>
-            <option value="3">INFJ</option>
-            <option value="4">INTJ</option>
-            <option value="5">ISTP</option>
-            <option value="6">ISFP</option>
-            <option value="7">INFP</option>
-            <option value="8">INTP</option>
-            <option value="9">ESTP</option>
-            <option value="10">ESFP</option>
-            <option value="11">ENFP</option>
-            <option value="12">ENTP</option>
-            <option value="13">ESTJ</option>
-            <option value="14">ESFJ</option>
-            <option value="15">ENFJ</option>
-            <option value="16">ENTJ</option>
-        </select>
+    <div class="wrap">
+        <!--로그인박스 HTML-->
+        <section class="section">
+            <div class="container">
+                <div class="box" style="max-width: 480px;margin:auto">
+                    <article class="media">
+                        <div class="media-content">
+
+                            <div id="div-sign-in-or-up" class="has-text-centered">
+                                <nav class="level is-mobile">
+
+
+                                </nav>
+                                <hr>
+                                <h4 class="mb-3">회원 정보를 수정 하시겠어요?</h4>
+                                <nav class="level is-mobile">
+
+                                    <button class="level-item button is-sparta is-outlined"
+                                            onclick="toggle_sign_up()">
+                                        회원 정보 수정 하기
+                                    </button>
+                                </nav>
+                            </div>
+                            <div id="sign-up-box" class="is-hidden">
+                                <div class="mb-5">
+                                    <div class="field">
+                                        <div class="control has-icons-left" style="width:100%">
+                                            <input id="input-nickname" class="input" placeholder="닉네임">
+                                            <span class="icon is-small is-left"></span>
+                                        </div>
+                                        <p id="help-nickname" class="help is-hidden">닉네임을 입력해주세요.</p>
+                                    </div>
+                                    <div id="input-mbti" class="help" type="mbti">
+                                        <label class="input-group-text" for="inputGroupSelect01">MBTI : </label>
+                                        <select class="form-select" id="inputGroupSelect01">
+                                            <option selected>--나의 MBTI 선택하기--</option>
+                                            <option value="ISTJ">ISTJ</option>
+                                            <option value="ISFJ">ISFJ</option>
+                                            <option value="INFJ">INFJ</option>
+                                            <option value="INTJ">INTJ</option>
+                                            <option value="ISTP">ISTP</option>
+                                            <option value="ISFP">ISFP</option>
+                                            <option value="INFP">INFP</option>
+                                            <option value="INTP">INTP</option>
+                                            <option value="ESTP">ESTP</option>
+                                            <option value="ESFP">ESFP</option>
+                                            <option value="ENFP">ENFP</option>
+                                            <option value="ENTP">ENTP</option>
+                                            <option value="ESTJ">ESTJ</option>
+                                            <option value="ESFJ">ESFJ</option>
+                                            <option value="ENFJ">ENFJ</option>
+                                            <option value="ENTJ">ENTJ</option>
+                                        </select>
+                                        <p id="help-mbti" class="help is-hidden">자신의 mbti를 선택해주세요.</p>
+                                    </div>
+                                </div>
+                                <nav class="level is-mobile">
+                                    <button class="level-item button is-sparta" onclick="sign_up()">
+                                        회원 정보 수정하기
+                                    </button>
+                                    <button class="level-item button is-sparta is-outlined" onclick="toggle_sign_up()">
+                                        취소
+                                    </button>
+                                </nav>
+                            </div>
+
+
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </section>
     </div>
-    </div>
-    </p>
-    <div class="mybtn">
-        <button type="button" class="btn btn-outline-primary">수정 하기</button>
-    </div>
-</div>
 </body>
 </html>

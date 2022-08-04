@@ -36,6 +36,10 @@ def discussion():
     post_num = "0"
     return render_template('discussion_post.html', post_num = post_num)
 
+@app.route('/sign_up_correct')
+def sign_up_correct():
+    return render_template('sign_up_correct.html')
+
 
 # 성윤님 -----------------------------------------------------
 @app.route('/api/free_posts', methods = ['GET'])
@@ -211,10 +215,7 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 # 수민님 -----------------------------------------------------
-# [논의 게시판 게시글 수정 바로 가기]
-@app.route('/discussion/post/comments')
-def discussion_page():
-    return render_template('discussion_post_add.html')
+
 
 # [논의 게시판 댓글 쓰기]
 @app.route("/comment", methods=["POST"])
