@@ -53,13 +53,12 @@
         }
 
 
-
         <!-- 회원 정보 수정 -->
         // {# 회원 정보 수정 클라이언트 #}
-            function sign_up_correct() {
+            function sign_up_correctt() {
                 let nickname = $("#input-nickname").val()
                 let mbti = $("#inputGroupSelect01").val()
-                console.log(mbti)
+                console.log(nickname, mbti)
 
 
                 if (nickname == "") {
@@ -78,10 +77,9 @@
 
 
 
-            // {# username과 password 서버로 전달 #}
                 $.ajax({
-                    type: "POST",
-                    url: "api/signup/save",
+                    type: "PUT",
+                    url: "api/sign_up/correctt",
                     data: {
                         nickname_give: nickname,
                         mbti_give: mbti

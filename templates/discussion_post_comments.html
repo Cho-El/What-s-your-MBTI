@@ -207,11 +207,11 @@
             });
         }
         <!-- 수민님 작성 코드 end -->
-        {#    병찬    #}
+        // {#    병찬    #}
         function show_modify_comments(){
-            $("#form-control").toggleClass("is-hidden")
-            $("#btn btn-outline-secondary").toggleClass("is-hidden")
-            $("#btn btn-outline-secondary").toggleClass("is-hidden")
+            $("#modify-comment").toggleClass("is-hidden")
+            $("#cancel-btn").toggleClass("is-hidden")
+            $("#button-addon2").toggleClass("is-hidden")
         }
 
         function modify_comments() {
@@ -251,7 +251,8 @@
         //
         //         }
         //     })
-        }
+        // {#    병찬end   #}
+
     </script>
 </head>
 
@@ -279,7 +280,7 @@
                 가능? 불가능?<br>
             </p>
             <div class = "delete_or_revise_btn">
-                <a href = "discussion_post_correct.html" class="btn btn-outline-primary" style="margin-bottom: 50px;" onclick="delete_post()">이 토론 수정하기</a>
+                <button type="button" class="btn btn-outline-primary" style="margin-bottom: 50px;" onclick="window.location.href='/discussion_post_correct'">이 토론 수정하기</button>
                 <button type="button" class="btn btn-outline-danger" style="margin-bottom: 50px;" onclick="delete_post()">이 토론 삭제하기</button>
             </div>
 
@@ -302,8 +303,8 @@
 <!--            이 밑에 수정란 쓰는 부분은 수정하기 누르는 경우에만 뜨게 설정할 예정-->
             <div class="input-group mb-3 revision">
                 <input type="text" class="form-control is-hidden" placeholder="수정할 내용을 입력하세요"
-                       aria-label="Recipient's username" aria-describedby="button-addon2" id="modify_comment">
-                <button onclick = "show_modify_comments()" class="btn btn-outline-secondary is-hidden" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" class = "button-addon">취소</button>
+                       aria-label="Recipient's username" aria-describedby="button-addon2" id="modify-comment">
+                <button onclick = "show_modify_comments()" class="btn btn-outline-secondary is-hidden" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" class = "button-addon" id="cancel-btn">취소</button>
                 <button onclick = "modify_comments()" class="btn btn-outline-secondary is-hidden" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" id="button-addon2">수정완료</button>
             </div>
         </div>
