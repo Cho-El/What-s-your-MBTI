@@ -65,11 +65,13 @@ def get_free_posts():
 def update_like():
     token_receive = request.cookies.get('mytoken')
     try:
+
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"user_id": payload["id"]})
+        user_info = db.User.find_one({"user_id": payload["id"]})
         feature_post_id_receive = request.form["feature_post_id_give"]
         type_receive = request.form["type_give"]
         action_receive = request.form["action_give"]
+
         doc = {
             "feature_post_id": feature_post_id_receive,
             "user_id": user_info["user_id"],
@@ -83,6 +85,25 @@ def update_like():
         return jsonify({"result": "success", 'msg': 'updated', "like": like})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
+
+# @app.route('/api/mbti_features_posts1', methods=["POST"])
+# def insert_mbti_feature():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         mbti_receive = request.args.get('mbti_give')
+#         features = list(db.Feature.find({'feature_mbti': mbti_receive},{'_id':False}).sort('like', -1))
+#
+#         for feature in features:
+#             feature["_id"] = str(feature["_id"])
+#             feature["like"] = db.likes.count_documents({"feature_id": feature["_id"], "type": "heart"})
+#             feature["heart_by_me"] = bool(db.likes.find_one({"feature_id": feature["_id"], "type": "heart", "user_id": payload['id']}))
+#             feature["feature_content"] = str(feature["feature_content"])
+#             feature["mbti"] = mbti_receive
+#
+#         return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for("home"))
 
 # 병찬님 -----------------------------------------------------
 @app.route('/discussion_post_add')
@@ -101,7 +122,6 @@ def discussion_post():
 @app.route("/api/mbti_features_posts", methods=["POST"])
 def board_post():
     token_receive = request.cookies.get('mytoken')
-
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms = ['HS256'])
         user_info = payload["id"]
@@ -121,22 +141,23 @@ def board_post():
 # 민진님 -----------------------------------------------------
 
 # < 특징 게시판 - 선택한 MBTI의 특징들 가져오기 API >
-@app.route('/api/mbti_features_posts', methods=['GET'])
+@app.route('/api/mbti_features_posts1', methods=["GET"])
 def select_mbti_feature():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        mbti_receive = request.form['mbti_give']
-        print(mbti_receive)
-        features = list(db.Feature.find({'feature_mbti': mbti_receive},{'_id':False}).sort('like', -1))
+        mbti_receive = request.args.get('mbti_give')
+        features = list(db.Feature.find({'feature_mbti': mbti_receive}).sort('like', -1))
+
 
         for feature in features:
             feature["_id"] = str(feature["_id"])
             feature["like"] = db.likes.count_documents({"feature_id": feature["_id"], "type": "heart"})
             feature["heart_by_me"] = bool(db.likes.find_one({"feature_id": feature["_id"], "type": "heart", "user_id": payload['id']}))
             feature["feature_content"] = str(feature["feature_content"])
-            feature["mbti"] = mbti_receive
+            feature["feature_mbti"] = mbti_receive
 
+        print(features)
         return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))

@@ -105,22 +105,18 @@
 
     </style>
     <script>
-        <!--
-        민진
-        작성
-        코드
-        start -->
         $(document).ready(function () {
             select_mbti()
         })
 
         function toggle_like(post_id, heart_by_me, type) {
-            console.log(post_id, type)
             let $a_like = $(`#${post_id}`)
-            if (heart_by_me) {
+            console.log(heart_by_me)
+            if (!heart_by_me) {
+                console.log(1)
                 $.ajax({
                     type: "POST",
-                    url: "/update_like",
+                    url: "/api/update_like",
                     data: {
                         feature_post_id_give: post_id,
                         type_give: type,
@@ -132,11 +128,12 @@
                     }
                 })
             } else {
+                console.log(2)
                 $.ajax({
                     type: "POST",
-                    url: "/update_like",
+                    url: "/api/update_like",
                     data: {
-                        post_id_give: post_id,
+                        feature_post_id_give: post_id,
                         type_give: type,
                         action_give: "like"
                     },
@@ -150,10 +147,9 @@
 
         function select_mbti() {
             let selected_mbti = $('#select-mbti').val();
-            console.log(selected_mbti)
             $.ajax({
                 type: "GET",
-                url: "/api/mbti_features_posts",
+                url: "/api/mbti_features_posts1",
                 data: {
                     mbti_give: selected_mbti
                 },
@@ -173,8 +169,8 @@
                     for (let i = 0; i < features.length; i++) {
                         let feature = features[i]['feature_content']
                         let like = features[i]['like']
-
-                        let temp_html = `<div class="col-sm-4" id="${feature[i]["_id"]}" onclick = "toggle_like("${features[i]["_id"]}","${features[i]["heart_by_me"]}", "heart")">
+                        console.log(features[i]["_id"],features[i]["heart_by_me"])
+                        let temp_html = `<div class="col-sm-4" id="${feature[i]["_id"]}" onclick = "toggle_like('${features[i]['_id']}','${features[i]["heart_by_me"]}', 'heart')">
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <p class="card-text">${feature}</p>
@@ -200,6 +196,19 @@
         }
 
         <!-- 민진 작성 코드 end -->
+        function insert_feature() {
+            let feature_content
+            $.ajax({
+                type: "POST",
+                url: "/api/mbti_features_posts1",
+                data: {
+                    feature_content: feature_content
+                },
+                success: function (response) {
+                    console.log(response)
+                }
+            })
+        }
     </script>
 </head>
 
@@ -249,11 +258,12 @@
 
                 <!--나중에 static폴더에 이미지 받아서 넣기-->
                 <img src="../static/default_image.png" class="content-img">
-                <script>document.getElementById('mbti_img').src = mbtiToImage(${selected_mbti})</script>
+<!--                <script>document.getElementById('mbti_img').src = mbtiToImage(${selected_mbti})</script>-->
             </div>
             <div class="row row-cols-3 row-cols-md-2 g-4" id="cards-box">
             </div>
         </div>
+
 
     </main>
 </div>
