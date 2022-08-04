@@ -34,6 +34,7 @@ def start():
 # discussion_post.html 렌더링
 @app.route('/discussion_post')
 def discussion():
+<<<<<<< Updated upstream
     discussion_posts = list(db.Post.find({},{'_id':False}))
     return render_template('discussion_post.html', discussion_posts = discussion_posts)
 
@@ -46,6 +47,22 @@ def discussion_post_comments(post_id):
     post_info = list(db.Post.find({'post_id': post_id}, {'_id': False}))
     comments = list(db.Comment.find({'post_id':post_id}, {'_id':False}))
     return render_template('discussion_post_comments.html', post_info = post_info, comments = comments)
+=======
+    return render_template('discussion_post.html')
+
+# 민진 작성 --------------------------------------------------
+@app.route('/discussion_post/<post_id>')
+def move_to_comments(post_id):
+    post_info = db.free_posts.find({'post_id':post_id}, {'_id':False})
+    comments = list(db.Comment.find({'post_id':post_id}, {'_id':False}))
+    return render_template('discussion_post_comments.html', post_info = post_info, comments = comments)
+
+
+# 성윤님 -----------------------------------------------------
+# @app.route('/discussion_post_comments')
+# def discussion_post_comments():
+#     return render_template('discussion_post_comments.html')
+>>>>>>> Stashed changes
 
 @app.route('/api/free_posts', methods = ['GET'])
 def get_free_posts():
@@ -53,7 +70,7 @@ def get_free_posts():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         free_posts = list(db.free_posts.find({}))
-        # posts = list(db.posts.find({}).sort("date", -1).limit(20))
+        # posts = list(db.free_post.find({}).sort("date", -1).limit(20))
 
         for free_post in free_posts:
             free_post['_id'] = str(free_post['_id'] )
@@ -122,7 +139,6 @@ def discussion_post_add():
 def discussion_back():
     return render_template('discussion_post.html')
 
-
 @app.route('/discussion_post_complete')
 def discussion_post():
     return render_template('discussion_post.html')
@@ -175,9 +191,20 @@ def select_mbti_feature():
 # < 논의 게시판 - 포스트 삭제 API >
 @app.route('/api/free_posts', methods=['DELETE'])
 def delete_post():
+<<<<<<< Updated upstream
     post_id_receive = request.form['post_id_give']
     db.Post.delete_one({'post_id': post_id_receive})
     return jsonify({'msg': '삭제 완료!'})
+=======
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        post_id_receive = request.form['post_id_give']
+        db.free_posts.delete_one({'user_id': payload['id'], 'Post._id': post_id_receive})
+        return jsonify({'msg': '삭제 완료!'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+>>>>>>> Stashed changes
 
 # < 논의 게시판 - 댓글 불러오기 API >
 @app.route('/api/comments', methods=['GET'])

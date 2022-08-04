@@ -144,6 +144,7 @@
 
     <script>
         $(document).ready(function () {
+<<<<<<< Updated upstream
 
             function delete_post() {
                 $.ajax({
@@ -153,10 +154,35 @@
                     success: function (response) {
                         alert(response["msg"])
                         window.location.reload()
+=======
+            show_comments();
+        };
+
+            function show_comments() {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/comments",
+                    data: {},
+                    success: function (response) {
+                        let comments = response['all_comments']
+                        for (let i = 0; i < comments.length; i++) {
+                            let user_nickname = comments[i]['user_nickname']
+                            let user_mbti = comments[i]['user_mbti']
+                            let comment_content = comments[i]['comment_content']
+
+                            let temp_html = `<li>
+                                            <h2>${user_mbti}</h2>
+                                            <h2>${user_nickname}</h2>
+                                            <h2>${comment_content}</h2>
+                                        </li>`
+                            $('#comment-box').append(temp_html)
+                        }
+>>>>>>> Stashed changes
                     }
                 })
             }
 
+<<<<<<< Updated upstream
             <!-- 수민님 작성 코드 start-->
             function save_comment() {
                 $.ajax({
@@ -175,32 +201,80 @@
             $("#btn btn-outline-secondary").toggleClass("is-hidden")
             $("#btn btn-outline-secondary").toggleClass("is-hidden")
         }
+=======
+        function delete_post() {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/free_posts",
+                data: {post_id_give: post_id},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            })
+        }
 
-        function modify_comments() {
-            let modify_comment = $('#modify_comment').val()
+            <!-- 로그아웃-->
 
-            if (modify_comment.toString().trim() == "") {
-                alert("수정할 내용을 입력해주시길 바랍니다.")
-            } else {
+>>>>>>> Stashed changes
+
+            <!-- 민진 작성 코드 end -->
+
+            <!-- 수민님 작성 코드 start-->
+            function save_comment() {
                 $.ajax({
-                    type: "PUT",
-                    url: "/api/comments",
-                    data: {
-                        modify_comment_give: modify_comment
-                    },
-                    error: function (response) {
-                        alert(response["msg"]);
-                    },
+                    type: "POST",
+                    url: "/comment",
+                    data: {comment_give: '데이터전송'},
                     success: function (response) {
-                        alert(response["msg"]);
-                    },
-                    complete: function () {
-                        window.location.reload();
+                        alert(response["msg"])
                     }
                 });
             }
+<<<<<<< Updated upstream
         }
         <!-- 병찬end   -->
+=======
+
+            <!-- 수민님 작성 코드 end -->
+            {#
+                병찬
+            #
+            }
+
+            function show_modify_comments() {
+                $("#form-control").toggleClass("is-hidden")
+                $("#btn btn-outline-secondary").toggleClass("is-hidden")
+                $("#btn btn-outline-secondary").toggleClass("is-hidden")
+            }
+
+            function modify_comments() {
+                let modify_comment = $('#modify_comment').val()
+
+                if (modify_comment.toString().trim() == "") {
+                    alert("수정할 내용을 입력해주시길 바랍니다.")
+                } else {
+                    $.ajax({
+                        type: "PUT",
+                        url: "/api/comments",
+                        data: {
+                            modify_comment_give: modify_comment
+                        },
+                        error: function (response) {
+                            alert(response["msg"]);
+                        },
+                        success: function (response) {
+                            alert(response["msg"]);
+                        },
+                        complete: function () {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }
+        })
+        // {#    병찬end   #}
+>>>>>>> Stashed changes
     </script>
 </head>
 
@@ -215,24 +289,40 @@
         </div>
     </header>
 
-    <!-- main == div -->
+        <!-- main == div -->
     <div class="main_contents">
         <div class='comment_box'>
+<<<<<<< Updated upstream
         {% for post in post_info %}
             <div class = 'each_comment'>
+=======
+            {% for post in post_info %}
+            <div class='each_comment'>
+>>>>>>> Stashed changes
                 <h1> {{ post.post_title }} </h1>
                 <br>
                 <h5 style="font-weight:lighter;"> {{ post.post_content }} </h5>
                 <br><br><br><br>
             </div>
+<<<<<<< Updated upstream
         {% endfor %}
             <div class = "delete_or_revise_btn">
                 <button class="btn btn-outline-primary" style="margin-bottom: 50px;">글 수정</button>
                 <button type="button" class="btn btn-outline-danger" style="margin-bottom: 50px;" onclick="delete_post()">글 삭제</button>
+=======
+            {% endfor %}
+            <div class="delete_or_revise_btn">
+                <a href="discussion_post_correct.html" class="btn btn-outline-primary" style="margin-bottom: 50px;"
+                   onclick="window.location.href='/discussion_post_correct'">글 수정</button></a>
+                <button type="button" class="btn btn-outline-danger" style="margin-bottom: 50px;"
+                        onclick="delete_post()">글 삭제
+                </button>
+>>>>>>> Stashed changes
             </div>
             <div class="input-group mb-3 revision">
                 <input type="text" class="form-control" placeholder="댓글을 입력하세요"
                        aria-label="Recipient's username" aria-describedby="button-addon2">
+<<<<<<< Updated upstream
                 <button class="btn btn-outline-secondary" type="button" class = "button-addon">작성 완료</button>
             </div>
 
@@ -252,7 +342,27 @@
                        aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button onclick = "show_modify_comments()" class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" class = "button-addon">취소</button>
                 <button onclick = "modify_comments()" class="btn btn-outline-secondary" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" id="button-addon2">수정완료</button>
+=======
+                <button class="btn btn-outline-secondary" onclick="save_comment()" type="button" class="button-addon">작성 완료</button>
+>>>>>>> Stashed changes
             </div>
+
+            <table class="table comment-table" style="font-size: large;">
+                <tbody>
+                {% for comment in comments %}
+                <tr>
+                    <td> {{ comment.user_mbti }}</td>
+                    <td> {{ comment.user_nickname }}</td>
+                    <td> {{ comment.comment_content }}</td>
+                    <td style="text-align: right">
+                        <div class="delete_or_revise_btn">
+                            <button type="button" onclick ="show_modify_comments()" class="btn btn-outline-primary">수정</button>
+                            <button type="button" onclick="" class="btn btn-outline-danger">삭제</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 </body>
