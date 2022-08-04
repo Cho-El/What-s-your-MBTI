@@ -170,10 +170,10 @@
                         let feature = features[i]['feature_content']
                         let like = features[i]['like']
                         console.log(features[i]["_id"],features[i]["heart_by_me"])
-                        let temp_html = `<div class="col-sm-4" id="${feature_post[i]["_id"]}" onclick = "toggle_like('${features[i]['_id']}','${features[i]["heart_by_me"]}', 'heart')">
+                        let temp_html = `<div class="col-sm-4" id="${features[i]["_id"]}" onclick = "toggle_like('${features[i]['_id']}','${features[i]["heart_by_me"]}', 'heart')">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <p class="card-text">${feature_post}</p>
+                                                            <p class="card-text">${feature}</p>
                                                             <div class="level-right">
                                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                                                 <span class="like-num">${like}</span>
@@ -247,7 +247,7 @@
                     <option value="ENTJ">ENTJ</option>
                 </select>
             </div>
-            <div class="list_name" style="color: darkgray" onclick="location.href='/discussion'">MBTI 토론장<span
+            <div class="list_name" style="color: darkgray" onclick="location.href='/discussion_post'">MBTI 토론장<span
                     class="material-icons-outlined">favorite</span></div>
         </div>
 
