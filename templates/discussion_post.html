@@ -112,7 +112,7 @@
 
     </style>
     <script>
-    <!-- 민진 작성 코드 start -->
+    //<!-- 민진작성코드start -->
     //$(document).ready(function () {
     //    show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
     //});
@@ -138,6 +138,9 @@
             window.location.href = "/start"
         }
     <!-- 민진 작성 코드 end -->
+    function regist_board(){
+        window.location.href = "/discussion_post_add/"
+    }
     </script>
 </head>
 
@@ -188,7 +191,7 @@
                         📢 MBTI 토론 게시판
                     </div>
                     <h5 class = "content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
-                    <button type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
+                    <button onclick="location.href='/discussion_post_add'" type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
                         <br>
                     <div class="row">
                         <div class="col-sm-4">
