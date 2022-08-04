@@ -20,7 +20,7 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        return render_template('feature_post.html')
+        return render_template('feature.html')
     except jwt.ExpiredSignatureError:
         return redirect(url_for("start", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -33,8 +33,22 @@ def start():
 
 @app.route('/discussion')
 def discussion():
-    post_num = "0"
-    return render_template('discussion_post.html', post_num = post_num)
+    discussion_posts = list(db.Post.find({},{'_id':False}))
+    return render_template('discussion.html', discussion_posts = discussion_posts)
+
+@app.route('/discussion/<post_id>')
+def discussion_post(post_id):
+    # token_receive = request.cookies.get('mytoken')
+    # try:
+        # payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # status = (user_id == payload["id"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
+        post_info = list(db.Post.find({'post_id': post_id}, {'_id': False}))
+        comments = list(db.Comment.find({'post_id':post_id}, {'_id':False}))
+        return render_template('discussion_post.html', post_info = post_info, comments = comments)
+        # return render_template('discussion_post.html', post_info = post_info, comments = comments, status = status)
+    # except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+    #     return redirect(url_for("/start"))
+
 
 
 # 성윤님 -----------------------------------------------------

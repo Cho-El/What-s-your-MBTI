@@ -7,63 +7,407 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
     <title>너의 MBTI는?</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
     <style>
         * {
             font-family: 'Noto Sans KR', sans-serif;
         }
 
-        .mypost {
-            width: 95%;
-            max-width: 500px;
-            margin: 100px auto 0px auto;
-            padding: 20px;
-            box-shadow: 0px 0px 3px 0px gray;
-        }
+        .mytitle {
+            width: 100%;
+            height: 200px;
+            /*background-color: green;*/
+            color: black;
 
-        .mybtns {
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: center;
-
-            margin-top: 20px;
+            justify-content: space-around;
         }
 
-        .mybtns > button {
+        .head_contents {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .head_item:nth-child(1) {
             margin-right: 10px;
+            flex-shrink: 0;
         }
+
+        .main_contents {
+            width: 90%;
+            max-width: 1500px;
+            height: 800px;
+
+            margin: 0 auto 0 auto;
+            /*background-color: aqua;*/
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: space-between;
+        }
+
+        .item:nth-child(1) {
+            /*background-color: red;*/
+            flex-shrink: 0;
+            width: 200px;
+        }
+
+        .item:nth-child(2) {
+            /*background-color: gray;*/
+            flex-grow: 1;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .list_name {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .discussion_zone {
+            margin: 20px 0 0 100px;
+        }
+
+        .content {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .form-select {
+            margin-top: 5px;
+        }
+
+        .discussion_zone {
+            position: relative;
+        }
+
+        .content-light {
+            font-weight: lighter;
+            margin-top: 7px;
+            color: dimgray;
+        }
+
+        .btn-outline-secondary {
+            width: 110px;
+            margin-top: 20px;
+            margin-bottom: -30px;
+            font-size: smaller;
+
+
+            position: absolute;
+            right: 0;
+        }
+
+        .card {
+            margin-top: 50px;
+            margin-left: 10px;
+        }
+
     </style>
+    <script>
+        <!--
+        민진
+        작성
+        코드
+        start -->
+        //$(document).ready(function () {
+        //    show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
+        //});
+
+
+        function show_posts() {
+            $("#card-box").empty()
+            $.ajax({
+                type: "GET",
+                url: "/api/free_posts",
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let free_posts = response["free_posts"]
+                        for (let i = 0; i < free_posts.length; i++) {
+                            let post_title = free_posts[i]['post_title']
+                            let temp_html = `<div class="col-sm-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">${post_title}</h4>
+                                                    <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
+                                                    <br><br>
+                                                    <a href="discussion_post_comments.html" class="btn btn-light">토론하러 가기</a>
+                                                </div>
+                                            </div>
+                                        </div>`
+                            $("#card-box").append(temp_html)
+                        }
+                    }
+                }
+            })
+        }
+
+        function delete_post() {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/free_posts",
+                data: {post_id_give: post_id},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            })
+        }
+
+        <!-- 로그아웃 -->
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!')
+            window.location.href = "/start"
+        }
+
+        <!-- 민진 작성 코드 end -->
+    </script>
 </head>
 
 <body>
+<div>
+    <!-- header == div -->
+    <header class="mytitle">
+        <h1></h1>
+        <h1>너의 MBTI는?</h1>
+        <div class="head_contents">
+            <h5 class="head_item">홍길동님</h5>
 
-    <div class="mypost">
-        <h2 style="margin-bottom: 30px;">토론 주제 수정하기</h2>
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Title</label>
+            <nav id="btns-me" class="level is-mobile" style="margin-top:2rem">
+                <a class="button level-item has-text-centered is-sparta" aria-label="edit"
+                   onclick='$("#modal-edit").addClass("is-active")'>
+                    프로필 수정&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil"
+                                                                           aria-hidden="true"></i></span>
+                </a>
+
+                <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
+                   onclick="sign_out()">
+                    로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
+                                                                         aria-hidden="true"></i></span>
+                </a>
+            </nav>
+            <div class="modal" id="modal-edit">
+                <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="field">
+                                    <p class="control">
+                                        <textarea id="textarea-post" class="textarea"
+                                                  placeholder="무슨 생각을 하고 계신가요?"></textarea>
+                                    </p>
+                                </div>
+                                <nav class="level is-mobile">
+                                    <div class="level-left">
+
+                                    </div>
+                                    <div class="level-right">
+                                        <div class="level-item">
+                                            <a class="button is-sparta" onclick="post()">포스팅하기</a>
+                                        </div>
+                                        <div class="level-item">
+                                            <a class="button is-sparta is-outlined"
+                                               onclick='$("#modal-post").removeClass("is-active")'>취소</a>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"
+                        onclick='$("#modal-post").removeClass("is-active")'></button>
+            </div>
+
+            </div>
+            <button type="button" class="btn btn-outline-dark" onclick="sign_out()">로그아웃</button>
+        </div>
+    </header>
+
+    <!-- main == div -->
+    <div class="main_contents">
+
+        <!-- main 1 : side_bar -->
+        <div class="item">
+            <div class="list_name" style="color: darkgray" onclick="location.href='/'">MBTI 공감 게시판
+                <select class="form-select form-select-sm" style="color: darkgray" aria-label=".form-select-sm example"
+                        id="select-mbti" onchange="select_mbti()" style="width: 70%;">
+                    <option value="ISTJ">ISTJ</option>
+                    <option value="ISFJ">ISFJ</option>
+                    <option value="INFJ">INFJ</option>
+                    <option value="INTJ">INTJ</option>
+                    <option value="ISTP">ISTP</option>
+                    <option value="ISFP">ISFP</option>
+                    <option value="INFP">INFP</option>
+                    <option value="INTP">INTP</option>
+                    <option value="ESTP">ESTP</option>
+                    <option value="ESFP">ESFP</option>
+                    <option value="ENFP">ENFP</option>
+                    <option value="ENTP">ENTP</option>
+                    <option value="ESTJ">ESTJ</option>
+                    <option value="ESFJ">ESFJ</option>
+                    <option value="ENFJ">ENFJ</option>
+                    <option value="ENTJ">ENTJ</option>
+                </select>
+            </div>
+            <div class="list_name" style="font-weight: bolder">MBTI 토론장</div>
         </div>
 
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                      style="height: 200px"></textarea>
-            <label for="floatingTextarea2">Comment</label>
-        </div>
-        <div class="mybtns">
-            <button type="button" class="btn btn-dark">등록</button>
-            <button type="button" class="btn btn-outline-dark">취소</button>
+        <!-- main 2 : discussion posts -->
+        <div class="item">
+            <div class="discussion_zone">
+                <div class="content">
+                    📢 MBTI 토론 게시판
+                </div>
+                <h5 class="content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
+                <button type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
+                <br>
+                <div id="card-box" class="row">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 style="font-size: x-small; font-weight: lighter; color: darkgray">글 번호
+                                    : {{ post_num }}</h6>
+                                <h4 class="card-title">깻잎논쟁</h4>
+                                <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
+                                <br><br>
+                                <a href="/discussion/post" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">롱패딩 논쟁</h4>
+                                <!-- <p class="card-text">내 이성친구가 남/여사친의 롱패딩 지퍼를 올려줘도 되는가?</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">'멍때리기'란?</h4>
+                                <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">"나 교통사고 났어"에 대한 대답은?</h4>
+                                <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">영희와 철수, 누가 더 나쁜가?</h4>
+                                <!-- <p class="card-text">멍때리기란, 아무 생각을 하지 않는 것인가? 잡생각을 하고 있는 것인가?</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">시험에 떨어진 친구에게</h4>
+                                <!-- <p class="card-text">아자차카타파하</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">'사과'하면 떠오르는 것은?</h4>
+                                <!-- <p class="card-text">아자차카타파하</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">여행 가기 전 준비과정</h4>
+                                <!-- <p class="card-text">아자차카타파하</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">가끔 어떤 망상해?</h4>
+                                <!-- <p class="card-text">아자차카타파하</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">가나다라마바사</h4>
+                                <!-- <p class="card-text">아자차카타파하</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">가나다라마바사</h4>
+                                <!-- <p class="card-text">아자차카타파하</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">가나다라마바사</h4>
+                                <!-- <p class="card-text">아자차카타파하</p> -->
+                                <br><br>
+                                <a href="#" class="btn btn-light">토론하러 가기</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
+</div>
 </body>
-
 </html>
