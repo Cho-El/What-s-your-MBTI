@@ -39,6 +39,13 @@ def discussion():
 
 
 # 성윤님 -----------------------------------------------------
+# discussion_post_comments.html 렌더링
+# 성윤님꺼와 충돌 ------------------------------------ 성윤님이 구현하신 기능 있는지 확인
+@app.route('/discussion_post/<post_id>')
+def discussion_post_comments(post_id):
+    post_info = list(db.Post.find({'post_id': post_id}, {'_id': False}))
+    comments = list(db.Comment.find({'post_id':post_id}, {'_id':False}))
+    return render_template('discussion_post_comments.html', post_info = post_info, comments = comments)
 
 @app.route('/api/free_posts', methods = ['GET'])
 def get_free_posts():
