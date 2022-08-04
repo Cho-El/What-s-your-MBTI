@@ -43,6 +43,25 @@ def discussion_page():
 # 성윤님 -----------------------------------------------------
 
 # 병찬님 -----------------------------------------------------
+@app.route("/api/mbti_features_posts", methods=["POST"])
+def board_post():
+    token_receive = request.cookies.get('mytoken')
+
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms = ['HS256'])
+        user_info = db.users.fine_one({"username":payload["id"]})
+        post_title_receive = request.form['post_title_give']
+        post_content_receive = request.form['post_content_give']
+
+        doc = {
+            'user_id': user_info,
+            'post_title': post_title_receive,
+            'post_content': post_content_receive
+        }
+        db.Post.insert_one(doc)
+        return jsonify({"result":"success",'msg':"성공"})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return jsonify(url_for("home?"))
 
 # 민진님 -----------------------------------------------------
 
