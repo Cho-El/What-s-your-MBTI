@@ -117,7 +117,34 @@
     //    show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
     //});
 
-    //function show_posts() {}     <!-- 임시 이름. 성윤님 함수 불러오기 -->
+
+    function show_posts(){
+        $("#card-box").empty()
+        $.ajax({
+            type: "GET",
+            url: "/api/free_posts",
+            data: {},
+            success: function (response) {
+                if (response["result"] == "success") {
+                    let free_posts = response["free_posts"]
+                    for (let i = 0; i< free_posts.length; i++){
+                        let post_title = free_posts[i]['post_title']
+                        let temp_html = `<div class="col-sm-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">${post_title}</h4>
+                                                    <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
+                                                    <br><br>
+                                                    <a href="discussion_post_comments.html" class="btn btn-light">토론하러 가기</a>
+                                                </div>
+                                            </div>
+                                        </div>`
+                        $("#card-box").append(temp_html)
+                    }
+                }
+            }
+        })
+    }
 
     function delete_post() {
         $.ajax({
@@ -190,7 +217,7 @@
                     <h5 class = "content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
                     <button type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
                         <br>
-                    <div class="row">
+                    <div id = "card-box" class="row">
                         <div class="col-sm-4">
                             <div class="card">
                                 <div class="card-body">
