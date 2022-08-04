@@ -47,9 +47,9 @@ def sign_up_correct():
 
 
 # 성윤님 -----------------------------------------------------
-@app.route('/discussion_post_comments')
-def discussion_post_comments():
-    return render_template('discussion_post_comments.html')
+@app.route('/discussion_post_comments/<post_id>')
+def discussion_post_comments(post_id):
+    return render_template('discussion_post_comments.html', post_id = post_id)
 
 @app.route('/api/free_posts', methods = ['GET'])
 def get_free_posts():
