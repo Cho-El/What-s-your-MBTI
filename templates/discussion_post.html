@@ -112,6 +112,59 @@
 
     </style>
     <script>
+    <!-- 민진 작성 코드 start -->
+    $(document).ready(function () {
+        show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
+    });
+
+
+    function show_posts(){
+        $("#card-box").empty()
+        $.ajax({
+            type: "GET",
+            url: "/api/free_posts",
+            data: {},
+            success: function (response) {
+                if (response["result"] == "success") {
+                    let free_posts = response["free_posts"]
+                    for (let i = 0; i< free_posts.length; i++){
+                        let post_title = free_posts[i]['post_title']
+                        let temp_html = `<div class="col-sm-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">${post_title}</h4>
+                                                    <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
+                                                    <br><br>
+                                                    <a href="/discussion_post_comments" class="btn btn-light">토론하러 가기</a>
+                                                </div>
+                                            </div>
+                                        </div>`
+                        $("#card-box").append(temp_html)
+                    }
+                }
+            }
+        })
+    }
+
+    function delete_post() {
+        $.ajax({
+            type: "DELETE",
+            url: "/api/free_posts",
+            data: {post_id_give:post_id},
+            success: function (response) {
+                alert(response["msg"])
+                window.location.reload()
+                }
+            })
+    }
+
+    <!-- 로그아웃 -->
+
+
+    <!-- 민진 작성 코드 end -->
+    function regist_board(){
+        window.location.href = "/discussion_post_add/"
+    }
     </script>
 </head>
 
@@ -125,6 +178,7 @@
                 <h5 class = "head_item" >홍길동님</h5>
                 <a href="sign_up_correct.html" class="btn btn-outline-dark" style="margin-right: 10px;">회원정보 수정</a>
                 <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/start'">로그아웃</button>
+
             </div>
         </header>
 
@@ -165,21 +219,8 @@
                     <h5 class = "content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
                     <button onclick="location.href='/discussion_post_add'" type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
                         <br>
-{#                    <div class="row">#}
-{#                        <!-- jinja2로 게시글들 불러오기 -->#}
-{#                        {% for post in discussion_posts %}      <!-- 반복문 수정 필요-->#}
-{#                            <div class="col-sm-4">#}
-{#                                <div class="card">#}
-{#                                    <div class="card-body">#}
-{#                                        <h6 style="font-size: x-small; font-weight: lighter; color: darkgray">글 번호 : {{ post.post_id }} </h6>#}
-{#                                        <h4 class="card-title"> {{ post.post_title }} </h4>#}
-{#                                        <br><br>#}
-{#                                        <a href="/discussion/{{ post.post_id }}" class="btn btn-light">토론하러 가기</a>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
+                    <div id = "card-box" class="row">
+                    </div>
                 </div>
             </div>
         </div>
