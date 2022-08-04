@@ -38,6 +38,10 @@ def discussion():
 
 
 # 성윤님 -----------------------------------------------------
+@app.route('/discussion_post_comments')
+def discussion_post_comments():
+    return render_template('discussion_post_comments.html')
+
 @app.route('/api/free_posts', methods = ['GET'])
 def get_free_posts():
     token_receive = request.cookies.get('mytoken')
@@ -58,17 +62,18 @@ def get_free_posts():
         return redirect(url_for("home"))
 
 @app.route('/api/update_like', methods = ['POST'])
-def update_like(): # 아직 미완성
+def update_like():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"username": payload["id"]})
+        user_info = db.users.find_one({"user_id": payload["id"]})
         feature_post_id_receive = request.form["feature_post_id_give"]
         type_receive = request.form["type_give"]
         action_receive = request.form["action_give"]
         doc = {
             "feature_post_id": feature_post_id_receive,
-            "user_id": user_info["username"]
+            "user_id": user_info["user_id"],
+            "type": type_receive
         }
         if action_receive == "like":
             db.likes.insert_one(doc)
@@ -116,11 +121,25 @@ def board_post():
 # 민진님 -----------------------------------------------------
 
 # < 특징 게시판 - 선택한 MBTI의 특징들 가져오기 API >
-@app.route('/api/mbti_features_posts', methods=['POST'])
+@app.route('/api/mbti_features_posts', methods=['GET'])
 def select_mbti_feature():
-    mbti_receive = request.form['mbti_give']
-    features = list(db.Feature.find({'feature_mbti': mbti_receive},{'_id':False}).sort('like', -1))
-    return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        mbti_receive = request.form['mbti_give']
+        print(mbti_receive)
+        features = list(db.Feature.find({'feature_mbti': mbti_receive},{'_id':False}).sort('like', -1))
+
+        for feature in features:
+            feature["_id"] = str(feature["_id"])
+            feature["like"] = db.likes.count_documents({"feature_id": feature["_id"], "type": "heart"})
+            feature["heart_by_me"] = bool(db.likes.find_one({"feature_id": feature["_id"], "type": "heart", "user_id": payload['id']}))
+            feature["feature_content"] = str(feature["feature_content"])
+            feature["mbti"] = mbti_receive
+
+        return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 # < 논의 게시판 - 포스트 삭제 API >
 @app.route('/api/free_posts', methods=['DELETE'])
