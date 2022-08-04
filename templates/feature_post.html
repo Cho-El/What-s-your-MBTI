@@ -111,8 +111,8 @@
 
         function toggle_like(post_id, heart_by_me, type) {
             let $a_like = $(`#${post_id}`)
-            console.log(heart_by_me)
-            if (!heart_by_me) {
+            let $i_like = $a_like.find("i")
+            if ($i_like.hasClass("fa-heart")) {
                 console.log(1)
                 $.ajax({
                     type: "POST",
@@ -124,6 +124,7 @@
                     },
                     success: function (response) {
                         console.log("unlike")
+                        $i_like.addClass("fa-heart-o").removeClass("fa-heart")
                         $a_like.find("span.like-num").text(response["like"])
                     }
                 })
@@ -138,6 +139,8 @@
                         action_give: "like"
                     },
                     success: function (response) {
+                        console.log("unlike")
+                        $i_like.addClass("fa-heart").removeClass("fa-heart-o")
                         $a_like.find("span.like-num").text(response["like"])
                     }
                 })
@@ -169,13 +172,14 @@
                     for (let i = 0; i < features.length; i++) {
                         let feature = features[i]['feature_content']
                         let like = features[i]['like']
+                        let class_heart = features[i]['heart_by_me'] ? "fa-heart" : "fa-heart-o"
                         console.log(features[i]["_id"],features[i]["heart_by_me"])
                         let temp_html = `<div class="col-sm-4" id="${features[i]["_id"]}" onclick = "toggle_like('${features[i]['_id']}','${features[i]["heart_by_me"]}', 'heart')">
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <p class="card-text">${feature}</p>
                                                             <div class="level-right">
-                                                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                <i class="fa ${class_heart}" aria-hidden="true"></i>
                                                                 <span class="like-num">${like}</span>
                                                             </div>
                                                         </div>

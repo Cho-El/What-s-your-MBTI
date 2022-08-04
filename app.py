@@ -49,13 +49,13 @@ def get_free_posts():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         free_posts = list(db.free_posts.find({}))
         # posts = list(db.posts.find({}).sort("date", -1).limit(20))
-        print(free_posts)
+
         for free_post in free_posts:
             free_post['_id'] = str(free_post['_id'] )
             free_post['user_id'] = str(free_post['user_id'])
             free_post['post_title'] = str(free_post['post_title'])
             free_post['post_content'] = str(free_post['post_content'])
-            print(free_post['post_title'], free_post['post_content'])
+
 
         return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "free_posts": free_posts})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
@@ -72,16 +72,19 @@ def update_like():
         type_receive = request.form["type_give"]
         action_receive = request.form["action_give"]
 
+        print(action_receive)
         doc = {
             "feature_post_id": feature_post_id_receive,
             "user_id": user_info["user_id"],
             "type": type_receive
         }
+
         if action_receive == "like":
             db.likes.insert_one(doc)
         else:
             db.likes.delete_one(doc)
-        like = db.likes.count_documents({"post_id": feature_post_id_receive})
+        like = db.likes.count_documents({"feature_post_id": feature_post_id_receive})
+        print(like)
         return jsonify({"result": "success", 'msg': 'updated', "like": like})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
