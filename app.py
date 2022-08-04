@@ -31,148 +31,59 @@ def start():
     msg = request.args.get("msg")
     return render_template('sign_up.html', msg=msg)
 
+# discussion_post.html 렌더링
 @app.route('/discussion_post')
 def discussion():
-    post_num = "0"
-    return render_template('discussion_post.html', post_num = post_num)
+    discussion_posts = list(db.Post.find({},{'_id':False}))
+    return render_template('discussion_post.html', discussion_posts = discussion_posts)
 
 
 # 성윤님 -----------------------------------------------------
-@app.route('/discussion_post_comments')
-def discussion_post_comments():
-    return render_template('discussion_post_comments.html')
 
-@app.route('/api/free_posts', methods = ['GET'])
-def get_free_posts():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        free_posts = list(db.free_posts.find({}))
-        # posts = list(db.posts.find({}).sort("date", -1).limit(20))
-        print(free_posts)
-        for free_post in free_posts:
-            free_post['_id'] = str(free_post['_id'] )
-            free_post['user_id'] = str(free_post['user_id'])
-            free_post['post_title'] = str(free_post['post_title'])
-            free_post['post_content'] = str(free_post['post_content'])
-            print(free_post['post_title'], free_post['post_content'])
-
-        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "free_posts": free_posts})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
-
-@app.route('/api/update_like', methods = ['POST'])
-def update_like():
-    token_receive = request.cookies.get('mytoken')
-    try:
-
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.User.find_one({"user_id": payload["id"]})
-        feature_post_id_receive = request.form["feature_post_id_give"]
-        type_receive = request.form["type_give"]
-        action_receive = request.form["action_give"]
-
-        doc = {
-            "feature_post_id": feature_post_id_receive,
-            "user_id": user_info["user_id"],
-            "type": type_receive
-        }
-        if action_receive == "like":
-            db.likes.insert_one(doc)
-        else:
-            db.likes.delete_one(doc)
-        like = db.likes.count_documents({"post_id": feature_post_id_receive})
-        return jsonify({"result": "success", 'msg': 'updated', "like": like})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
-
-# @app.route('/api/mbti_features_posts1', methods=["POST"])
-# def insert_mbti_feature():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         mbti_receive = request.args.get('mbti_give')
-#         features = list(db.Feature.find({'feature_mbti': mbti_receive},{'_id':False}).sort('like', -1))
-#
-#         for feature in features:
-#             feature["_id"] = str(feature["_id"])
-#             feature["like"] = db.likes.count_documents({"feature_id": feature["_id"], "type": "heart"})
-#             feature["heart_by_me"] = bool(db.likes.find_one({"feature_id": feature["_id"], "type": "heart", "user_id": payload['id']}))
-#             feature["feature_content"] = str(feature["feature_content"])
-#             feature["mbti"] = mbti_receive
-#
-#         return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
+# discussion_post_comments.html 렌더링
+# 성윤님꺼와 충돌 ------------------------------------ 성윤님이 구현하신 기능 있는지 확인
+@app.route('/discussion_post/<post_id>')
+def discussion_post_comments(post_id):
+    post_info = list(db.Post.find({'post_id': post_id}, {'_id': False}))
+    comments = list(db.Comment.find({'post_id':post_id}, {'_id':False}))
+    return render_template('discussion_post_comments.html', post_info = post_info, comments = comments)
 
 # 병찬님 -----------------------------------------------------
-@app.route('/discussion_post_add')
-def discussion_post_add():
-    return render_template('discussion_post_add.html')
-
-@app.route('/discussion_post_back')
-def discussion_back():
-    return render_template('discussion_post.html')
-
-
-@app.route('/discussion_post_complete')
-def discussion_post():
-    return render_template('discussion_post.html')
-
 @app.route("/api/mbti_features_posts", methods=["POST"])
 def board_post():
     token_receive = request.cookies.get('mytoken')
+
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms = ['HS256'])
-        user_info = payload["id"]
+        user_info = db.users.fine_one({"username":payload["id"]})
         post_title_receive = request.form['post_title_give']
         post_content_receive = request.form['post_content_give']
 
         doc = {
             'user_id': user_info,
             'post_title': post_title_receive,
-            'post_content': post_content_receive
+            'post_content': post_content_receive,
         }
-        db.free_posts.insert_one(doc)
+        db.Post.insert_one(doc)
         return jsonify({"result":"success",'msg':"성공"})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+        return jsonify(url_for("home?"))
 
 # 민진님 -----------------------------------------------------
 
-# < 특징 게시판 - 선택한 MBTI의 특징들 가져오기 API >
-@app.route('/api/mbti_features_posts1', methods=["GET"])
+# < 특징 게시판 - 선택한 MBTI의 특징들 가져오기 API >  ---------  삭제??? 성윤님이 이미 구현한 기능??
+@app.route('/api/mbti_features_posts', methods=['POST'])
 def select_mbti_feature():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        mbti_receive = request.args.get('mbti_give')
-        features = list(db.Feature.find({'feature_mbti': mbti_receive}).sort('like', -1))
-
-
-        for feature in features:
-            feature["_id"] = str(feature["_id"])
-            feature["like"] = db.likes.count_documents({"feature_id": feature["_id"], "type": "heart"})
-            feature["heart_by_me"] = bool(db.likes.find_one({"feature_id": feature["_id"], "type": "heart", "user_id": payload['id']}))
-            feature["feature_content"] = str(feature["feature_content"])
-            feature["feature_mbti"] = mbti_receive
-
-        print(features)
-        return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+    mbti_receive = request.form['mbti_give']
+    features = list(db.Feature.find({'feature_mbti': mbti_receive},{'_id':False}).sort('like', -1))
+    return jsonify({'the_mbti_features': features, 'msg': f'{mbti_receive}의 특징으로 이동합니다.'})
 
 # < 논의 게시판 - 포스트 삭제 API >
 @app.route('/api/free_posts', methods=['DELETE'])
 def delete_post():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        post_id_receive = request.form['post_id_give']
-        db.Post.delete_one({'user_id': payload['id'], 'Post._id': post_id_receive})
-        return jsonify({'msg': '삭제 완료!'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+    post_id_receive = request.form['post_id_give']
+    db.Post.delete_one({'post_id': post_id_receive})
+    return jsonify({'msg': '삭제 완료!'})
 
 # < 논의 게시판 - 댓글 불러오기 API >
 @app.route('/api/comments', methods=['GET'])
@@ -232,15 +143,6 @@ def check_dup():
     exists = bool(db.User.find_one({"user_id": username_receive}))
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
-
-# 로그아웃(수정완)
-@app.route('/api/logout')
-def sign_out():
-    session.clear()
-    return redirect(url_for('/start'))
-
-
-
 
 # 수민님 -----------------------------------------------------
 # [논의 게시판 게시글 수정 바로 가기]
