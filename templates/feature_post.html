@@ -170,10 +170,10 @@
                         let feature = features[i]['feature_content']
                         let like = features[i]['like']
                         console.log(features[i]["_id"],features[i]["heart_by_me"])
-                        let temp_html = `<div class="col-sm-4" id="${feature[i]["_id"]}" onclick = "toggle_like('${features[i]['_id']}','${features[i]["heart_by_me"]}', 'heart')">
+                        let temp_html = `<div class="col-sm-4" id="${feature_post[i]["_id"]}" onclick = "toggle_like('${features[i]['_id']}','${features[i]["heart_by_me"]}', 'heart')">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <p class="card-text">${feature}</p>
+                                                            <p class="card-text">${feature_post}</p>
                                                             <div class="level-right">
                                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                                                 <span class="like-num">${like}</span>

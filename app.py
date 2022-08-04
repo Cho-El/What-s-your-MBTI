@@ -31,7 +31,7 @@ def start():
     msg = request.args.get("msg")
     return render_template('sign_up.html', msg=msg)
 
-@app.route('/discussion')
+@app.route('/discussion_post')
 def discussion():
     post_num = "0"
     return render_template('discussion_post.html', post_num = post_num)
