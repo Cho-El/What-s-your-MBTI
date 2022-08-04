@@ -112,6 +112,48 @@
 
     </style>
     <script>
+<<<<<<< Updated upstream
+
+    <!-- 민진_작성_코드_start -->
+=======
+<<<<<<< HEAD
+    <!-- 민진작성코드start -->
+>>>>>>> Stashed changes
+    $(document).ready(function () {
+        show_posts();
+    });
+
+
+        function show_posts(){
+            $("#card-box").empty()
+            $.ajax({
+                type: "GET",
+                url: "/api/free_posts",
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let free_posts = response["free_posts"]
+                        for (let i = 0; i< free_posts.length; i++){
+                            let post_title = free_posts[i]['post_title']
+                            let temp_html = `<div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">${post_title}</h4>
+                                                        <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
+                                                        <br><br>
+                                                        <a href="/discussion_post/${post_id}" class="btn btn-light">토론하러 가기</a>
+                                                    </div>
+                                                </div>
+                                            </div>`
+                            $("#card-box").append(temp_html)
+                        }
+                    }
+                }
+            })
+<<<<<<< Updated upstream
+=======
+    }
+=======
 
     <!-- 민진_작성_코드_start -->
     $(document).ready(function () {
@@ -145,6 +187,7 @@
                     }
                 }
             })
+>>>>>>> Stashed changes
         }
 
         function delete_post() {
@@ -158,14 +201,32 @@
                     }
                 })
         }
+<<<<<<< Updated upstream
+=======
+>>>>>>> 민진-new-development
+>>>>>>> Stashed changes
 
     <!-- 로그아웃 -->
 
 
+<<<<<<< Updated upstream
     function regist_board(){
         window.location.href = "/discussion_post_add/"
     }
 
+=======
+<<<<<<< HEAD
+    <!-- 민진 작성 코드 end -->
+    function regist_board(){
+        window.location.href = "/discussion_post_add/"
+    }
+=======
+    function regist_board(){
+        window.location.href = "/discussion_post_add/"
+    }
+
+>>>>>>> 민진-new-development
+>>>>>>> Stashed changes
     </script>
 </head>
 
@@ -219,6 +280,12 @@
                     <h5 class = "content-light">의견을 자유롭게 나누고, 나와 같은 MBTI인 사람들이 어떻게 댓글을 다는지 살펴보세요!</h5>
                     <button onclick="location.href='/discussion_post_add'" type="button" class="btn btn-outline-secondary">게시글 쓰기</button>
                         <br>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+                    <div id = "card-box" class="row">
+=======
+>>>>>>> Stashed changes
 
                     <div id = "card-box" class="row">
 <!--                        &lt;!&ndash; jinja2로 게시글들 불러오기 &ndash;&gt;-->
@@ -234,6 +301,10 @@
 <!--                                </div>-->
 <!--                            </div>-->
 <!--                        {% endfor %}-->
+<<<<<<< Updated upstream
+=======
+>>>>>>> 민진-new-development
+>>>>>>> Stashed changes
                     </div>
                 </div>
             </div>

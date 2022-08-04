@@ -34,8 +34,23 @@ def start():
 # discussion_post.html 렌더링
 @app.route('/discussion_post')
 def discussion():
+<<<<<<< Updated upstream
     discussion_posts = list(db.free_post.find({},{'_id':False}))
     return render_template('discussion_post.html')
+=======
+<<<<<<< HEAD
+    post_num = "0"
+    return render_template('discussion_post.html', post_num = post_num)
+@app.route('/discussion_post_correct')
+def discussion_post_correct():
+    msg = request.args.get("msg")
+    return render_template('discussion_post_correct.html', msg=msg)
+
+@app.route('/sign_up_correct')
+def sign_up_correct():
+    msg = request.args.get("msg")
+    return render_template('sign_up_correct.html', msg=msg)
+>>>>>>> Stashed changes
 
 # 민진 작성 --------------------------------------------------
 @app.route('/discussion_post/<post_id>')
@@ -45,6 +60,25 @@ def move_to_comments(post_id):
     return render_template('discussion_post_comments.html', post_info = post_info, comments = comments)
 
 # 성윤님 -----------------------------------------------------
+<<<<<<< Updated upstream
+=======
+@app.route('/discussion_post_comments')
+def discussion_post_comments():
+    return render_template('discussion_post_comments.html')
+=======
+    discussion_posts = list(db.free_post.find({},{'_id':False}))
+    return render_template('discussion_post.html')
+
+# 민진 작성 --------------------------------------------------
+@app.route('/discussion_post/<post_id>')
+def move_to_comments(post_id):
+    post_info = db.free_posts.find({'post_id':post_id}, {'_id':False})
+    comments = list(db.Comment.find({'post_id':post_id}, {'_id':False}))
+    return render_template('discussion_post_comments.html', post_info = post_info, comments = comments)
+>>>>>>> 민진-new-development
+
+# 성윤님 -----------------------------------------------------
+>>>>>>> Stashed changes
 # @app.route('/discussion_post_comments')
 # def discussion_post_comments():
 #     return render_template('discussion_post_comments.html')
