@@ -48,6 +48,7 @@ def get_free_posts():
         print(free_posts)
         for free_post in free_posts:
             free_post['_id'] = str(free_post['_id'] )
+            free_post['user_id'] = str(free_post['user_id'])
             free_post['post_title'] = str(free_post['post_title'])
             free_post['post_content'] = str(free_post['post_content'])
             print(free_post['post_title'], free_post['post_content'])
@@ -67,7 +68,7 @@ def update_like(): # 아직 미완성
         action_receive = request.form["action_give"]
         doc = {
             "feature_post_id": feature_post_id_receive,
-            "username": user_info["username"]
+            "user_id": user_info["username"]
         }
         if action_receive == "like":
             db.likes.insert_one(doc)
@@ -107,7 +108,7 @@ def board_post():
             'post_title': post_title_receive,
             'post_content': post_content_receive
         }
-        db.Post.insert_one(doc)
+        db.free_posts.insert_one(doc)
         return jsonify({"result":"success",'msg':"성공"})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
