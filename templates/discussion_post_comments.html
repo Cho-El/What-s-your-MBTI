@@ -207,11 +207,11 @@
             });
         }
         <!-- 수민님 작성 코드 end -->
-        {#    병찬    #}
+        // {#    병찬    #}
         function show_modify_comments(){
-            $("#form-control").toggleClass("is-hidden")
-            $("#btn btn-outline-secondary").toggleClass("is-hidden")
-            $("#btn btn-outline-secondary").toggleClass("is-hidden")
+            $("#modify-comment").toggleClass("is-hidden")
+            $("#cancel-btn").toggleClass("is-hidden")
+            $("#button-addon2").toggleClass("is-hidden")
         }
 
         function modify_comments() {
@@ -238,7 +238,7 @@
                 });
             }
         }
-        {#    병찬end   #}
+        // {#    병찬end   #}
     </script>
 </head>
 
@@ -290,8 +290,8 @@
 <!--            이 밑에 수정란 쓰는 부분은 수정하기 누르는 경우에만 뜨게 설정할 예정-->
             <div class="input-group mb-3 revision">
                 <input type="text" class="form-control is-hidden" placeholder="수정할 내용을 입력하세요"
-                       aria-label="Recipient's username" aria-describedby="button-addon2" id="modify_comment">
-                <button onclick = "show_modify_comments()" class="btn btn-outline-secondary is-hidden" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" class = "button-addon">취소</button>
+                       aria-label="Recipient's username" aria-describedby="button-addon2" id="modify-comment">
+                <button onclick = "show_modify_comments()" class="btn btn-outline-secondary is-hidden" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" class = "button-addon" id="cancel-btn">취소</button>
                 <button onclick = "modify_comments()" class="btn btn-outline-secondary is-hidden" type="button" style = "border-radius: 8px; color: black; margin-left: 3px;" id="button-addon2">수정완료</button>
             </div>
         </div>
