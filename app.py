@@ -79,13 +79,26 @@ def update_like(): # 아직 미완성
         return redirect(url_for("home"))
 
 # 병찬님 -----------------------------------------------------
+@app.route('/discussion_post_add')
+def discussion_post_add():
+    return render_template('discussion_post_add.html')
+
+@app.route('/discussion_post_back')
+def discussion_back():
+    return render_template('discussion_post.html')
+
+
+@app.route('/discussion_post_complete')
+def discussion_post():
+    return render_template('discussion_post.html')
+
 @app.route("/api/mbti_features_posts", methods=["POST"])
 def board_post():
     token_receive = request.cookies.get('mytoken')
 
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms = ['HS256'])
-        user_info = db.users.fine_one({"username":payload["id"]})
+        user_info = payload["id"]
         post_title_receive = request.form['post_title_give']
         post_content_receive = request.form['post_content_give']
 
@@ -97,7 +110,7 @@ def board_post():
         db.Post.insert_one(doc)
         return jsonify({"result":"success",'msg':"성공"})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return jsonify(url_for("home?"))
+        return redirect(url_for("home"))
 
 # 민진님 -----------------------------------------------------
 
