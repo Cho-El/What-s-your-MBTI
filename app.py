@@ -33,7 +33,8 @@ def start():
 
 @app.route('/discussion')
 def discussion():
-    return render_template('discussion_post.html')
+    post_num = "0"
+    return render_template('discussion_post.html', post_num = post_num)
 
 
 # 성윤님 -----------------------------------------------------
