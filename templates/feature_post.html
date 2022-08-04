@@ -13,7 +13,7 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
-    <title>너의 MBTI는?</title>
+    <title>너의 MBTI는?  |  공감 게시판</title>
     <!-- Bulma CSS 링크 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
@@ -107,122 +107,114 @@
     <script>
     <!-- 민진 작성 코드 start -->
     $(document).ready(function () {
-        show_features()
+
     })
 
-    function show_features() {
-        $.ajax({
-            type: "GET",
-            url: "/api/mbti_features_posts",
-            data: {},
-            success: function (response) {
-                let features = response['the_mbti_features']
-                for (let i = 0; i < features.length; i++) {
-                    let feature = features[i]['feature_content']
-                    let like = features[i]['like']
+    function select_mbti(){
+        let selected_mbti = $('#select-mbti').val();
 
-                    let temp_html = `<div class="col-sm-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <p class="card-text">${feature}</p>
-                                                <div class="level-right">
-                                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                                    <span class="like-num">&nbsp;${like}</span>
-                                                </div>
-                                            </div>
-                                        </div>
+        $.ajax({
+                type: "POST",
+                url: "/api/mbti_features_posts",
+                data: {mbti_give: selected_mbti},
+                success: function (response) {
+                    alert(response["msg"]);
+                    $("#cards-box").empty()
+                    $("#image-box").empty()
+
+
+                    let features = response['the_mbti_features']
+
+                    let temp_img = `<div class="content" style="margin-left: -30px;">
+                                        <img id="mbti_img" src="static/${selected_mbti}.jpg">
+                                        <h1>${selected_mbti}</h1>
+                                        <h6 style="font-weight: lighter">가장 공감되는 ${selected_mbti}의 특징에 좋아요를 눌러주세요.</h6>
                                     </div>`
-                    $('#????').append(temp_html)
+                    $('#image-box').append(temp_img);
+
+                    for (let i = 0; i < features.length; i++) {
+                        let feature = features[i]['feature_content']
+                        let like = features[i]['like']
+
+                        let temp_html = `<div class="col-sm-4">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p class="card-text">${feature}</p>
+                                                            <div class="level-right">
+                                                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                <span class="like-num">&nbsp;${like}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>`
+                        $('#cards-box').append(temp_html);
+                    }
                 }
-            }
         })
     }
+
+    <!-- 로그아웃 -->
+        function sign_out() {
+                $.removeCookie('mytoken', {path: '/'});
+                alert('로그아웃!')
+                window.location.href = "/start"
+    }
+
     <!-- 민진 작성 코드 end -->
     </script>
 </head>
 
 <body>
-<div>
-    <!-- header == div -->
-    <header class="mytitle">
-        <div></div>
-        <h1 class="title">너의 MBTI는?</h1>
-        <div class="head_contents">
-            <div class="head_item">홍길동님</div>
-            <button type="button" class="btn btn-outline-dark">로그인 / 로그아웃</button>
-        </div>
-    </header>
+    <div>
+        <!-- header == div -->
+        <header class="mytitle">
+            <div></div>
+            <h1 class="title">너의 MBTI는?</h1>
+            <div class="head_contents">
+                <div class="head_item">홍길동님</div>
+                <button type="button" class="btn btn-outline-dark" onclick="sign_out()">로그아웃</button>
+            </div>
+        </header>
 
-    <!-- main == div -->
-    <main class="main_contents">
-        <div class="item">
-            <div class="list_name">MBTI 특징
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    <option value="ISTJ">ISTJ</option>
-                    <option value="ISFJ">ISFJ</option>
-                    <option value="INFJ">INFJ</option>
-                    <option value="INTJ">INTJ</option>
-                    <option value="ISTP">ISTP</option>
-                    <option value="ISFP">ISFP</option>
-                    <option value="INFP">INFP</option>
-                    <option value="INTP">INTP</option>
-                    <option value="ESTP">ESTP</option>
-                    <option value="ESFP">ESFP</option>
-                    <option value="ENFP">ENFP</option>
-                    <option value="ENTP">ENTP</option>
-                    <option value="ESTJ">ESTJ</option>
-                    <option value="ESFJ">ESFJ</option>
-                    <option value="ENFJ">ENFJ</option>
-                    <option value="ENTJ">ENTJ</option>
-                </select>
+        <!-- main == div -->
+        <main class="main_contents">
+            <div class="item">
+                <div class="list_name" style="font-weight: bolder">MBTI 공감 게시판
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select-mbti" onchange="select_mbti()" style="width: 80%;">
+                        <option value="ISTJ">ISTJ</option>
+                        <option value="ISFJ">ISFJ</option>
+                        <option value="INFJ">INFJ</option>
+                        <option value="INTJ">INTJ</option>
+                        <option value="ISTP">ISTP</option>
+                        <option value="ISFP">ISFP</option>
+                        <option value="INFP">INFP</option>
+                        <option value="INTP">INTP</option>
+                        <option value="ESTP">ESTP</option>
+                        <option value="ESFP">ESFP</option>
+                        <option value="ENFP">ENFP</option>
+                        <option value="ENTP">ENTP</option>
+                        <option value="ESTJ">ESTJ</option>
+                        <option value="ESFJ">ESFJ</option>
+                        <option value="ENFJ">ENFJ</option>
+                        <option value="ENTJ">ENTJ</option>
+                    </select>
+                </div>
+                <div class="list_name" style="color: darkgray" onclick="location.href='/discussion'">MBTI 토론장</div>
             </div>
-            <div class="list_name">게시판</div>
 
-        </div>
-        <div class="item">
-            <div class="content">
-                <!--나중에 static폴더에 이미지 받아서 넣기-->
-                <img src="https://blog.kakaocdn.net/dn/duiuP8/btqEQXQTkeu/lqFPGyqg3dWbi02fru5DF0/img.png"
-                     class="content-img">
-            </div>
-            <div class="row row-cols-3 row-cols-md-2 g-4">
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">content1</p>
-                            <div class="level-right">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <span class="like-num">&nbsp;2.7k</span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="item" id="content-box">
+                <div class="content" id="image-box">
+                    <h5 style="font-weight: lighter">좌측 메뉴에서 당신의 mbti를 선택하세요.</h5>
+                    <!--나중에 static폴더에 이미지 받아서 넣기-->
+                    <img src="../static/default_image.png" class="content-img">
+                    <script>document.getElementById('mbti_img').src=mbtiToImage(${selected_mbti})</script>
                 </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">content2</p>
-                            <div class="level-right">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <span class="like-num">&nbsp;2.7k</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">content3</p>
-                            <div class="level-right">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <span class="like-num">&nbsp;2.7k</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row row-cols-3 row-cols-md-2 g-4" id="cards-box">
                 </div>
             </div>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
 </body>
 
 </script>
