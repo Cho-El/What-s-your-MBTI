@@ -9,9 +9,9 @@ from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
 from pymongo import MongoClient
-client = MongoClient('localhost', 27017)
+# client = MongoClient('localhost', 27017)
 # 아래코드는 서버에 배포시
-#client = MongoClient('mongodb://test:test@localhost', 27017) # Connection Setting시 유저 네임과 비밀번호를 입력해줘야되요 ex) MongoClient('mongodb://아이디:비번@localhost',27017)
+client = MongoClient('43.200.170.125', 27017, username="test", password="test")
 db = client.mbti
 
 # HTML 보여주기 - 수민 + 민진 -------------------------------------
@@ -264,8 +264,6 @@ def check_dup():
 def sign_out():
     session.clear()
     return redirect(url_for('/start'))
-
-
 
 
 # 수민님 -----------------------------------------------------
