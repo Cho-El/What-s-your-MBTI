@@ -17,7 +17,7 @@ db = client.mbti
 # # 2. Feature 테이블 추가
 def db_setting():
     # Feature 테이블 초기화
-    # db.Feature.delete_many({})
+    db.Feature.delete_many({})
     # Feature 테이블에 데이터 넣기
     db.Feature.insert_many([
         # 1. ISTJ
