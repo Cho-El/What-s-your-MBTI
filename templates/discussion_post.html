@@ -112,11 +112,10 @@
 
     </style>
     <script>
-    <!-- 민진작성코드start -->
+    <!-- 민진 -->
     $(document).ready(function () {
         show_posts();       <!-- 임시 이름. 성윤님 함수 불러오기 -->
     });
-
 
     function show_posts(){
         $("#card-box").empty()
@@ -129,13 +128,14 @@
                     let free_posts = response["free_posts"]
                     for (let i = 0; i< free_posts.length; i++){
                         let post_title = free_posts[i]['post_title']
+                        let post_id = free_posts[i]['_id']
                         let temp_html = `<div class="col-sm-4">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h4 class="card-title">${post_title}</h4>
                                                     <!-- <p class="card-text">내 친구가 깻잎 떼는 것을 나의 이성친구가 도와줘도 되는가? </p> -->
                                                     <br><br>
-                                                    <a href="/discussion_post_comments/${free_posts[i]['_id']}" class="btn btn-light">토론하러 가기</a>
+                                                    <a href="/discussion_post_comments/${post_id}" class="btn btn-light">토론하러 가기</a>
                                                 </div>
                                             </div>
                                         </div>`
@@ -175,7 +175,7 @@
             <h1> </h1>
             <h1>너의 MBTI는?</h1>
             <div class="head_contents">
-                <h5 class = "head_item" >홍길동님</h5>
+                <h5 class = "head_item" >{{ cur_user_info }}님</h5>
                 <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/sign_up_correct'">회원정보 수정</button>
                 <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/start'">로그아웃</button>
 
