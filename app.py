@@ -10,10 +10,16 @@ from datetime import datetime, timedelta
 
 from bson.objectid import ObjectId
 from pymongo import MongoClient
+# 0. 로컬 테스트용
 client = MongoClient('localhost', 27017)
-# 아래코드는 서버에 배포시
-# client = MongoClient('43.200.170.125', 27017) # Connection Setting시 유저 네임과 비밀번호를 입력해줘야되요 ex) MongoClient('mongodb://아이디:비번@localhost',27017)
+# 1. 서버에 배포시 - Github 업로드
+# client = MongoClient('43.200.170.125', 27017, username="test", password="test")
 db = client.mbti
+
+# DB 세팅
+import DB_setting
+DB_setting.db_setting()
+
 
 # HTML 보여주기 - 수민 + 민진 -------------------------------------
 @app.route('/')
@@ -212,13 +218,6 @@ def delete_post():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
-# < 논의 게시판 - 댓글 불러오기 API >
-# @app.route('/api/comments', methods=['GET'])
-# def show_comments():
-#     post_id = request.args.get('post_id')
-#     comments = list(db.Comment.find({'_id': ObjectId(post_id)}))
-#     return jsonify({'all_comments': comments})
-
 # < 논의 게시판 - 댓글 추가하기 API >
 @app.route('/api/comments', methods=['POST'])
 def save_comment():
@@ -228,9 +227,8 @@ def save_comment():
         user_info = payload["id"]
         post_id_receive = request.form['post_id_give']
         comment_content_receive = request.form['comment_content_give']
-
-        user_nickname = db.Comment.find_one({'user_id':user_info})['user_nickname']
-        user_mbti = db.Comment.find_one({'user_id':user_info})['user_mbti']
+        user_nickname = db.User.find_one({'user_id':user_info})['user_nickname']
+        user_mbti = db.User.find_one({'user_id':user_info})['user_mbti']
 
         doc = {
             'user_id': user_info,
@@ -320,7 +318,7 @@ def sign_up_correctt():
     return jsonify({'result': 'success'})
 
 # [논의 게시판 게시글 수정]
-@app.route('/api/free_posts_', methods=['PUT'])
+@app.route('/api/free_posts', methods=['PUT'])
 def update_post():
     token_receive = request.cookies.get('mytoken')
     try:
