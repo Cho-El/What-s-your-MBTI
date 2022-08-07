@@ -14,6 +14,8 @@ from pymongo import MongoClient
 client = MongoClient('43.200.170.125', 27017, username="test", password="test")
 db = client.mbti
 
+
+
 # HTML 보여주기 - 수민 + 민진 -------------------------------------
 @app.route('/')
 def home():
