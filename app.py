@@ -8,12 +8,18 @@ import hashlib
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
+# pymongo
+from bson.objectid import ObjectId
 from pymongo import MongoClient
-# client = MongoClient('localhost', 27017)
-# 아래코드는 서버에 배포시
-client = MongoClient('43.200.170.125', 27017, username="test", password="test")
+# 0. 로컬 테스트용
+client = MongoClient('localhost', 27017)
+# 1. 서버에 배포시 - Github 업로드
+# client = MongoClient('43.200.170.125', 27017, username="test", password="test")
 db = client.mbti
 
+# DB 세팅
+import DB_setting
+DB_setting.db_setting()
 
 
 # HTML 보여주기 - 수민 + 민진 -------------------------------------
@@ -22,7 +28,8 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        return render_template('feature_post.html')
+        current_user_info = db.User.find_one({'user_id':payload["id"]})['user_nickname']
+        return render_template('feature_post.html', cur_user_info=current_user_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("start", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -35,8 +42,15 @@ def start():
 
 @app.route('/discussion_post')
 def discussion():
-    post_num = "0"
-    return render_template('discussion_post.html', post_num = post_num)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        current_user_nickname = db.User.find_one({'user_id': payload["id"]})['user_nickname']
+
+        return render_template('discussion_post.html', cur_user_info=current_user_nickname)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
 @app.route('/discussion_post_correct')
 def discussion_post_correct():
     msg = request.args.get("msg")
@@ -49,9 +63,28 @@ def sign_up_correct():
 
 
 # 성윤님 -----------------------------------------------------
+ # 민진 수정 - 각 포스트로 연결될 수 있도록 url에 변수 추가
 @app.route('/discussion_post_comments/<post_id>')
 def discussion_post_comments(post_id):
-    return render_template('discussion_post_comments.html', post_id = post_id)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        current_user_nickname = db.User.find_one({'user_id':payload["id"]})['user_nickname']
+
+        free_posts = list(db.free_posts.find({'_id': ObjectId(post_id)}))
+        for free_post in free_posts:
+            free_post['_id'] = str(free_post['_id'])
+            free_post['post_title'] = str(free_post['post_title'])
+            free_post['post_content'] = str(free_post['post_content'])
+        comments = list(db.Comment.find({'post_id':post_id}))
+        for comment in comments:
+            comment['user_mbti'] = str(comment['user_mbti'])
+            comment['user_nickname'] = str(comment['user_nickname'])
+            comment['comment_content'] = str(comment['comment_content'])
+        return render_template('discussion_post_comments.html', free_posts=free_posts, comments=comments, cur_user_info=current_user_nickname)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+# 민진 수정 완료
 
 @app.route('/api/free_posts', methods = ['GET'])
 def get_free_posts():
@@ -177,7 +210,6 @@ def select_mbti_feature():
         mbti_receive = request.args.get('mbti_give')
         features = list(db.Feature.find({'feature_mbti': mbti_receive}).sort('like', -1))
 
-
         for feature in features:
             feature["_id"] = str(feature["_id"])
             feature["like"] = db.likes.count_documents({"feature_id": feature["_id"], "type": "heart"})
@@ -197,17 +229,36 @@ def delete_post():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         post_id_receive = request.form['post_id_give']
-        db.Post.delete_one({'user_id': payload['id'], 'Post._id': post_id_receive})
+        db.free_posts.delete_one({'user_id': payload['id'], 'Post._id': post_id_receive})
         return jsonify({'msg': '삭제 완료!'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
-# < 논의 게시판 - 댓글 불러오기 API >
-@app.route('/api/comments', methods=['GET'])
-def show_comments():
-    post_id = request.args.get('post_id')
-    comments = list(db.Comment.find({'': post_id}))
-    return jsonify({'all_comments': comments})
+# < 논의 게시판 - 댓글 추가하기 API >
+@app.route('/api/comments', methods=['POST'])
+def save_comment():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = payload["id"]
+        post_id_receive = request.form['post_id_give']
+        comment_content_receive = request.form['comment_content_give']
+        user_nickname = db.User.find_one({'user_id':user_info})['user_nickname']
+        user_mbti = db.User.find_one({'user_id':user_info})['user_mbti']
+
+        doc = {
+            'user_id': user_info,
+            'user_nickname': user_nickname,
+            'user_mbti': user_mbti,
+            'post_id': post_id_receive,
+            'comment_content': comment_content_receive,
+        }
+
+        db.Comment.insert_one(doc)
+        return jsonify({"result": "success", 'msg': "댓글 작성 완료!"})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
 
 # 수진님 -----------------------------------------------------
 
@@ -283,7 +334,7 @@ def sign_up_correctt():
     return jsonify({'result': 'success'})
 
 # [논의 게시판 게시글 수정]
-@app.route('/api/free_posts_', methods=['PUT'])
+@app.route('/api/free_posts', methods=['PUT'])
 def update_post():
     token_receive = request.cookies.get('mytoken')
     try:
