@@ -27,7 +27,8 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        return render_template('feature_post.html')
+        current_user_info = db.User.find_one({'user_id':payload["id"]})['user_nickname']
+        return render_template('feature_post.html', cur_user_info=current_user_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("start", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -40,7 +41,14 @@ def start():
 
 @app.route('/discussion_post')
 def discussion():
-    return render_template('discussion_post.html')
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        current_user_nickname = db.User.find_one({'user_id': payload["id"]})['user_nickname']
+
+        return render_template('discussion_post.html', cur_user_info=current_user_nickname)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 @app.route('/discussion_post_correct')
 def discussion_post_correct():
@@ -57,17 +65,24 @@ def sign_up_correct():
  # 민진 수정 - 각 포스트로 연결될 수 있도록 url에 변수 추가
 @app.route('/discussion_post_comments/<post_id>')
 def discussion_post_comments(post_id):
-    free_posts = list(db.free_posts.find({'_id': ObjectId(post_id)}))
-    for free_post in free_posts:
-        free_post['_id'] = str(free_post['_id'])
-        free_post['post_title'] = str(free_post['post_title'])
-        free_post['post_content'] = str(free_post['post_content'])
-    comments = list(db.Comment.find({'post_id':post_id}))
-    for comment in comments:
-        comment['user_mbti'] = str(comment['user_mbti'])
-        comment['user_nickname'] = str(comment['user_nickname'])
-        comment['comment_content'] = str(comment['comment_content'])
-    return render_template('discussion_post_comments.html', free_posts=free_posts, comments=comments)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        current_user_nickname = db.User.find_one({'user_id':payload["id"]})['user_nickname']
+
+        free_posts = list(db.free_posts.find({'_id': ObjectId(post_id)}))
+        for free_post in free_posts:
+            free_post['_id'] = str(free_post['_id'])
+            free_post['post_title'] = str(free_post['post_title'])
+            free_post['post_content'] = str(free_post['post_content'])
+        comments = list(db.Comment.find({'post_id':post_id}))
+        for comment in comments:
+            comment['user_mbti'] = str(comment['user_mbti'])
+            comment['user_nickname'] = str(comment['user_nickname'])
+            comment['comment_content'] = str(comment['comment_content'])
+        return render_template('discussion_post_comments.html', free_posts=free_posts, comments=comments, cur_user_info=current_user_nickname)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 # 민진 수정 완료
 
 @app.route('/api/free_posts', methods = ['GET'])
