@@ -28,8 +28,11 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        current_user_info = db.User.find_one({'user_id':payload["id"]})['user_nickname']
-        return render_template('feature_post.html', cur_user_info=current_user_info)
+        temp_user_info = db.User.find_one({'user_id':payload["id"]})['user_nickname']
+        if temp_user_info != None:
+            current_user_info = temp_user_info
+            return render_template('feature_post.html', cur_user_info=current_user_info)
+        else: return render_template('feature_post.html')
     except jwt.ExpiredSignatureError:
         return redirect(url_for("start", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
